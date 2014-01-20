@@ -21,7 +21,7 @@ class Welcome extends CI_Controller {
 	{
 		//$this->config->load('oauth2');
                 	$data['user'] = $this->session->userdata('info');
-                	var_dump($data['user']);
+                	//var_dump($data['user']);
 		$this->load->view('welcome_message');
 	}
 }

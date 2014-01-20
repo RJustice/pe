@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Oauthnew{
+class OAuth2{
     protected $ci;
 
     public $state_key = 'state';
@@ -91,5 +91,5 @@ class Oauthnew{
     }
 }
 
-/* End of file OAuth.php */
-/* Location: ./application/libraries/OAuth.php */
+/* End of file OAuth2.php */
+/* Location: ./application/libraries/OAuth2.php */

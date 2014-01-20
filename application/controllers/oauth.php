@@ -12,12 +12,15 @@ class Oauth extends CI_Controller {
         $this->config->load('oauth2');
         $config = $this->config->item('oauth2');
         // var_dump($oauth_config);exit;
-        $this->load->library('oauthnew',$config[$provider]);
+        $this->load->library('oauth2',$config[$provider]);
         $code = $this->input->get('code',TRUE);
         if(!$code){
-            $this->oauthnew->authorize();
+            $this->oauth2->authorize();
         }else{
-            $token = $this->oauthnew->access($code);
+            $token = $this->oauth2->access($code);
+        }
+        if($token){
+            exit('验证过期,请返回重新验证');
         }
         //var_dump($token);
         $this->rest->server($config[$provider]['no_access_gateways']);
