@@ -45,7 +45,7 @@
 | the active record class
 */
 
-$active_group = 'default';
+$active_group = 'home';
 $active_record = TRUE;
 
 $db['default']['hostname'] = 'localhost';
@@ -64,6 +64,20 @@ $db['default']['swap_pre'] = '';
 $db['default']['autoinit'] = TRUE;
 $db['default']['stricton'] = FALSE;
 
-
+$db['home']['hostname'] = 'localhost';
+$db['home']['username'] = 'root';
+$db['home']['password'] = 'yuntao';
+$db['home']['database'] = 'pe';
+$db['home']['dbdriver'] = 'mysql';
+$db['home']['dbprefix'] = 'pe_';
+$db['home']['pconnect'] = TRUE;
+$db['home']['db_debug'] = TRUE;
+$db['home']['cache_on'] = FALSE;
+$db['home']['cachedir'] = '';
+$db['home']['char_set'] = 'utf8';
+$db['home']['dbcollat'] = 'utf8_general_ci';
+$db['home']['swap_pre'] = '';
+$db['home']['autoinit'] = TRUE;
+$db['home']['stricton'] = FALSE;
 /* End of file database.php */
 /* Location: ./application/config/database.php */
