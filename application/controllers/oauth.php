@@ -8,9 +8,16 @@ class Oauth extends CI_Controller {
     }
 
     function index($provider = ''){
-
+        if(empty($provider)){
+            redirect('404');
+            exit('ERROR');
+        }
         $this->config->load('oauth2');
         $config = $this->config->item('oauth2');
+        if(!isset($config[$provider])){
+            redirect('404');
+            exit('ERROR');
+        }
         // var_dump($oauth_config);exit;
         $this->load->library('oauth2',$config[$provider]);
         $code = $this->input->get('code',TRUE);
