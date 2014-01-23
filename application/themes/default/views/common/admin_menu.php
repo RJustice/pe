@@ -1,6 +1,6 @@
-<nav class="navbar navbar-default" role="navigation">
+<nav class="navbar navbar-inverse" role="navigation">
     <div class="collapse navbar-collapse">
-        <ul class="nav nav-pills">
+        <ul class="nav navbar-nav">
             <li class="active"><a href="<?php echo site_url('admin/panel');?>">Panel</a></li>
             <li><a href="<?php echo site_url('order')?>">订单</a></li>
             <li><a href="<?php echo site_url('taobao')?>">Tao</a></li>

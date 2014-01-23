@@ -1,6 +1,6 @@
 <?php
-    if($user['band']['unband']){
-        echo '<p class="text-center"><a href="'.site_url('oauth/index/taobao').'" class="btn btn-warning">绑定淘宝账号</a></p>';
+    if( ! is_band_taobao()){
+        echo '<p class="text-center"><a href="'.site_url('user/bandtao').'" class="btn btn-warning">绑定淘宝账号</a></p>';
     }
 ?>
 <div class="container">

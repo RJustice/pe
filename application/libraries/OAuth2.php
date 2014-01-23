@@ -85,7 +85,7 @@ class OAuth2{
         $this->ci->rest->server($this->oauth_server);
         $this->ci->rest->option(CURLOPT_SSL_VERIFYPEER,FALSE);
         $return = $this->ci->rest->post($this->access_token_uri,$params,'json');
-        //$this->ci->rest->debug();
+        // $this->ci->rest->debug();
         //var_dump($return);exit;
         return $return;
     }

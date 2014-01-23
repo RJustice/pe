@@ -98,7 +98,20 @@ class CI_Session {
 		}
 		else
 		{
-			return ( ! isset($_SESSION[$item])) ? false : $_SESSION[$item];
+			if(strpos($item,'.') === FALSE){
+				return ( ! isset($_SESSION[$item])) ? false : $_SESSION[$item];
+			}else{
+				$keys = explode('.', $item);
+				$item = $_SESSION;
+				foreach($keys as $key){
+					if( isset($item[$key]) ){
+						$item = $item[$key];
+					}else{
+						return FALSE;
+					}
+				}
+				return $item;
+			}
 		}
 	}
 
