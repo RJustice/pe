@@ -1,6 +1,11 @@
-application/config/database.php
-application/logs/log-*.php
-application/logs/!index.html
-application/cache/
-application/cache/!index.html
-application/cache/!.htaccess
+.DS_Store
+
+application/cache/*
+!application/cache/index.html
+!application/cache/.htaccess
+
+application/logs/*
+!application/logs/index.html
+!application/logs/.htaccess
+
+!application/config/database.php
