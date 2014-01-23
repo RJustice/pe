@@ -18,8 +18,6 @@ class PEtsy{
                 'api_key' => $this->api_key,
             ),'json');
         return $listing;
-        //$this->ci->rest->debug();
-        //var_dump($listing);
     }
 
     function getListingShpping($listing_id){
@@ -31,6 +29,10 @@ class PEtsy{
     }
 
     function getListingImages($listing_id){
-        
+        $uri = 'listings/'.$listing_id.'/images';
+        $images = $this->ci->rest->get($uri,array(
+                'api_key' => $this->api_key,
+            ),'json');
+        return $images;
     }
 }
