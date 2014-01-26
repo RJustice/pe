@@ -75,6 +75,22 @@ class M_User extends CI_Model {
             return FALSE;
         }
     }
+
+    function refresh_taotoken(){
+        $this->config->load('oauth2');
+        $config = $this->config->item('oauth2');
+        $this->load->library('oauth2',$config['taobao']);
+        $token = $this->oauth2->access($this->session->userdata('user.band.taobao.refresh_token'),array('grant_type'=>'refresh_token'));
+        $band_data = array(
+                'access_token' => $token['access_token'],
+                'expires_in' => $token['expires_in'],
+                'refresh_token' => $token['refresh_token'],
+                're_expires_in' => $token['re_expires_in'],
+                'tao_nick' => $token['taobao_user_nick'],
+                'tao_uid' => $token['taobao_user_id']
+            );
+        $this->band('taobao',$band_data);
+    }
 }
 
 /* End of file m_user.php */

@@ -5,12 +5,13 @@ class User extends CI_Controller {
     public function __construct()
     {
         parent::__construct();
+        $this->load->model('m_user');
     }
 
     public function index(){
         is_logged();
         $this->template->set_partial('menu','common/admin_menu');
-        $this->template->build('admin/user');
+        $this->template->build('admin/user/main');
     }
 
     public function login()
@@ -23,15 +24,14 @@ class User extends CI_Controller {
         $this->form_validation->set_rules('password', 'Password', 'required');
         $this->form_validation->set_error_delimiters('<div class="alert alert-danger">','</div>');
         if($this->form_validation->run() == FALSE){
-            $this->template->build('admin/login_form');
+            $this->template->build('admin/user/login_form');
         }else{
-            $this->load->model('m_user');
             $username = $this->input->post('username',TRUE);
             $password = $this->input->post('password',TRUE);
             $user = $this->m_user->checkLogin($username,$password);
             if( ! $user){
                 $data['error'] = '<div class="alert alert-danger">Login Failed</div>';
-                $this->template->build('admin/login_form',$data);
+                $this->template->build('admin/user/login_form',$data);
             }else{
                 if($this->session->userdata('unband_data')){
                     $this->m_user->band($this->session->userdata('unband_data.app'),$this->session->userdata('unband_data.data'));
@@ -91,13 +91,16 @@ class User extends CI_Controller {
                 'tao_avatar' => $tao_user['user_seller_get_response']['user']['avatar']
             );
         if(is_logged(FALSE)){
-            $this->load->model('m_user');
             $this->m_user->band($provider,$band_data);
             redirect('admin/panel');
         }else{
             $this->session->set_userdata('unband_data',array('app'=>$provider,'data'=>$band_data));
             redirect('user/login');
         }
+    }
+
+    function refresh_token(){
+        $this->m_user->refresh_taotoken();
     }
 }
 
