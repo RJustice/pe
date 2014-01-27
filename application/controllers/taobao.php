@@ -16,11 +16,23 @@ class Taobao extends CI_Controller {
         $this->template->build('admin/tao/main');
     }
 
-    function items(){
-        $user = $this->session->userdata('user');
-        $items = $this->ltao->getItems();
+    function items($page = ''){
+        if(empty($page)){
+            $page = 1;
+        }
+        //$user = $this->session->userdata('user');
+
+        $items = $this->ltao->getItems($page);
+        if($items == FALSE){
+            $this->template->set_partial('menu','common/admin_menu');
+            $this->template->build('common/noitems');
+            return FALSE;
+        }
+        $pagination = pagination(site_url('taobao/items'),20,$this->ltao->getTotal());
+
+        $this->template->inject_partial('pagination',$pagination);
         $this->template->set_partial('menu','common/admin_menu');
-        $this->template->build('admin/tao/items');
+        $this->template->build('admin/tao/items',array('items'=>$items));
     }
 
     function updateTaoItems($page = ''){
@@ -28,7 +40,11 @@ class Taobao extends CI_Controller {
             $page = 1;
         }
         $items = $this->atao->getItemsOnsale($this->session->userdata('user.band.taobao.access_token'),$page);
+        if($items == FALSE){
+            exit('ERROR');
+        }
         $total = $items['total_results'];
+        $this->ltao->updateTaoItems($items['items']['item']);
         if($total < ($page * 40)){
             redirect('taobao/items');
         }else{

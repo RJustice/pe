@@ -86,7 +86,7 @@ class User extends CI_Controller {
                 'expires_in' => $token['expires_in'],
                 'refresh_token' => $token['refresh_token'],
                 're_expires_in' => $token['re_expires_in'],
-                'tao_nick' => $token['taobao_user_nick'],
+                'tao_nick' => urldecode($token['taobao_user_nick']),
                 'tao_uid' => $token['taobao_user_id'],
                 'tao_avatar' => $tao_user['user_seller_get_response']['user']['avatar']
             );
@@ -101,6 +101,7 @@ class User extends CI_Controller {
 
     function refresh_token(){
         $this->m_user->refresh_taotoken();
+        redirect('admin/panel');
     }
 }
 

@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2 tao_submenu">
             <ul class="nav nav-pills">
-                <li class="active"><a href="#">Update</a></li>
+                <li <?php if($this->router->method == 'items'){echo 'active';}?>><a href="<?php echo site_url('taobao/items');?>">Items</a></li>
                 <li><a href="#">Update</a></li>
                 <li><a href="#">Update</a></li>
                 <li><a href="#">Update</a></li>

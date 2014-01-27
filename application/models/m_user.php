@@ -65,7 +65,7 @@ class M_User extends CI_Model {
             $this->session->unset_userdata('unband_data');
             $this->session->unset_userdata('user');
             $this->session->set_userdata('user',array(
-                    'id' => $uid,
+                    'uid' => $uid,
                     'nick' => $user['nick'],
                     'band_state' => $band_state,
                     'band' => $band
@@ -86,7 +86,7 @@ class M_User extends CI_Model {
                 'expires_in' => $token['expires_in'],
                 'refresh_token' => $token['refresh_token'],
                 're_expires_in' => $token['re_expires_in'],
-                'tao_nick' => $token['taobao_user_nick'],
+                'tao_nick' => urldecode($token['taobao_user_nick']),
                 'tao_uid' => $token['taobao_user_id']
             );
         $this->band('taobao',$band_data);

@@ -36,7 +36,7 @@ class ATao extends CI_Model {
         $this->params['method'] = 'taobao.items.onsale.get';
         $this->params['access_token'] = $access_token;
         $this->params['page'] = $page;
-        $this->params['fields'] = 'approve_status,cid,iid,num.num_iid,price,title,props';
+        $this->params['fields'] = 'approve_status,cid,iid,num,price,title,props,nick,pic_url';
         $items = $this->rest->get('rest',$this->params,'json');
         // $this->rest->debug();
         if( ! isset($items['items_onsale_get_response'])){
