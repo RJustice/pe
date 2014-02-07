@@ -46,42 +46,52 @@ class ATao extends CI_Model {
     }
 
     //获取商品详细信息
-    function getItem(){
+    function getItem($access_token,$taoid){
         $this->params['method'] = 'taobao.item.get';
+        $this->params['access_token'] = $access_token;
+        $this->params['fields'] = '';
+        $this->params['num_iid'] = $taoid;
     }
 
     //批量获取商品信息
     function getItems(){
         $this->params['method'] = 'taobao.items.list.get';
+        $this->params['access_token'] = $access_token;
     }
 
     //批量更新库存
     function updateQuantity(){
         $this->params['method'] = 'taobao.item.quantity.update';
+        $this->params['access_token'] = $access_token;
     }
 
     //获取订单信息
     function getTrade(){
         $this->params['method'] = 'taobao.trade.get';
+        $this->params['access_token'] = $access_token;
     }
 
     function getShopInfo(){
         $this->params['method'] = 'taobao.shop.get';
+        $this->params['access_token'] = $access_token;
     }
 
     //更新商品价格
     function updateItemPrice(){
         $this->params['method'] = 'taobao.item.price.update';
+        $this->params['access_token'] = $access_token;
     }
 
     //获取商品的SKU信息
     function getItemSKU(){
         $this->params['method'] = 'taobao.item.skus.get';
+        $this->params['access_token'] = $access_token;
     }
 
     //发布到淘宝
     function addItem(){
         $this->params['method'] = 'taobao.item.add';
+        $this->params['access_token'] = $access_token;
     }
 }
 
