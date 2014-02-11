@@ -38,7 +38,12 @@ class LEtsy extends CI_Model {
     function storeItem($data){
 
         $tesyData = array(
-                ''
+                'uid' => $this->session->userdata('user.uid'),
+                'etsy_id' => $data['listing_id'],
+                'etsy_title' => '',
+                'etsy_price' => '',
+                'etsy_qty' => '',
+                'etsy_shipping' => '',
             );
 
         $query = 'select pe_etsy_id from '.$this->_table.' where etsy_id = ?';
