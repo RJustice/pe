@@ -1,4 +1,5 @@
 <div class="container">
+    <?php echo isset($template['partials']['submenu'])?$template['partials']['submenu']:'';?>
     <style>
         .tao-main .glyphicon{font-size:20px;}
         .tao-main .glyphicon-ok-circle{color:#2ecc71;}

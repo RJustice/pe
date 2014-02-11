@@ -5,14 +5,15 @@ class Taobao extends CI_Controller {
     public function __construct()
     {
         parent::__construct();
+        is_logged();
         $this->load->model('atao');
         $this->load->model('ltao');
-        is_logged();
+        $this->template->set_partial('menu','common/admin_menu');
+        $this->template->set_partial('submenu','admin/tao/tao_submenu');
     }
 
     public function index()
     {
-        $this->template->set_partial('menu','common/admin_menu');
         $this->template->build('admin/tao/main');
     }
 
@@ -24,14 +25,14 @@ class Taobao extends CI_Controller {
 
         $items = $this->ltao->getItems($page);
         if($items == FALSE){
-            $this->template->set_partial('menu','common/admin_menu');
+            //$this->template->set_partial('menu','common/admin_menu');
             $this->template->build('common/noitems');
             return FALSE;
         }
         $pagination = pagination(site_url('taobao/items'),20,$this->ltao->getTotal());
 
         $this->template->inject_partial('pagination',$pagination);
-        $this->template->set_partial('menu','common/admin_menu');
+        //$this->template->set_partial('menu','common/admin_menu');
         $this->template->build('admin/tao/items',array('items'=>$items));
     }
 
@@ -49,7 +50,7 @@ class Taobao extends CI_Controller {
             redirect('taobao/items');
         }else{
             $this->template->append_metadata( '<meta http-equiv="refresh" content="5; url='.site_url('taobao/updatetaoitems/'.($page+1)).'" />');
-            $this->template->set_partial('menu','common/admin_menu');
+            //$this->template->set_partial('menu','common/admin_menu');
             $this->template->build('admin/tao/update_redirect',array(
                     'total' => $total,
                     'page' => $page

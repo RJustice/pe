@@ -1,4 +1,5 @@
 <div class="container">
+    <?php echo isset($template['partials']['submenu'])?$template['partials']['submenu']:'';?>
     <div class="row">
         <div class="col-md-6 col-md-offset-3">
             <div class="alert alert-info">

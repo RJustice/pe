@@ -1,16 +1,5 @@
 <div class="container">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2 tao_submenu">
-            <ul class="nav nav-pills">
-                <li <?php if($this->router->method == 'items'){echo 'active';}?>><a href="<?php echo site_url('taobao/items');?>">Items</a></li>
-                <li><a href="#">Update</a></li>
-                <li><a href="#">Update</a></li>
-                <li><a href="#">Update</a></li>
-                <li><a href="#">Update</a></li>
-                <li><a href="#">Link</a></li>
-            </ul>
-        </div>
-    </div>
+    <?php echo isset($template['partials']['submenu'])?$template['partials']['submenu']:'';?>
     <div class="container">
         <style>
         .tao-main .glyphicon{font-size:20px;}

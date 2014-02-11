@@ -17,6 +17,9 @@ class Petsy{
         $listing = $this->ci->rest->get($uri,array(
                 'api_key' => $this->api_key,
             ),'json');
+        if($this->ci->rest->status() == '404'){
+            return FALSE;
+        }
         return $listing;
     }
 
