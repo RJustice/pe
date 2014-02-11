@@ -19,7 +19,7 @@ class Admin extends CI_Controller {
         $this->template->set_partial('menu','common/admin_menu');
         $this->template->build('admin/panel',$data);
     }
-
+ 
 }
 
 /* End of file admin.php */

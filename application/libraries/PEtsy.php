@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class PEtsy{
+class Petsy{
     protected $ci;
     protected $api_key = '5o3iv8habmayo82enj3kp210';
     protected $api_url = 'https://openapi.etsy.com/v2/';

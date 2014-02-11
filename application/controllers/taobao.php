@@ -58,7 +58,7 @@ class Taobao extends CI_Controller {
     }
 
     function updateTaoItem(){
-
+        
     }
 }
 

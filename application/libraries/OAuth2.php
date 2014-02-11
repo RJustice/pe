@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class OAuth2{
+class Oauth2{
     protected $ci;
 
     public $state_key = 'state';
