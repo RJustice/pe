@@ -29,11 +29,16 @@ class LTao extends CI_Model {
     function getTotal(){
         $query = 'select FOUND_ROWS() as total';
         $rs = $this->db->query($query);
-        return $rs->row_object()->total;
+        return $rs->row()->total;
     }
 
     function getUnLinkedTao(){
-        
+         $query = 'select pe_tao_id,tao_id,tao_title,tao_img from '.$this->_table.' where linked = 0 ';
+        $rs = $this->db->query($query);
+        if($rs->num_rows() > 0){
+            return $rs->result_array();
+        }
+        return FALSE;
     }
 
     function updateTaoItems($data){
@@ -69,6 +74,15 @@ class LTao extends CI_Model {
                 $this->db->insert($this->_table, $insert_data);
             }            
         }
+    }
+
+    function linkEtsy($data){
+        $update_data = array(
+            'linked' => 1,
+            'etsy_id' => $data['etsy_id'],
+            'pe_etsy_id' => $data['pe_etsy_id'],
+        );
+        $this->db->update('tao',$update_data,'pe_tao_id = '.$data['pe_tao_id']);
     }
 }
 

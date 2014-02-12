@@ -19,10 +19,12 @@ class Welcome extends CI_Controller {
 	 */
 	public function index()
 	{
+		$this->load->library('currency');
+		var_dump($this->currency->getCurrency('EUR','CNY'));
 		//$this->config->load('oauth2');
-                	$data['user'] = $this->session->userdata('info');
+           	//$data['user'] = $this->session->userdata('info');
                 	//var_dump($data['user']);
-		$this->load->view('welcome_message');
+		//$this->load->view('welcome_message');
 	}
 }
 

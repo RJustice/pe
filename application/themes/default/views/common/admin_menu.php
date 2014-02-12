@@ -2,9 +2,10 @@
     <div class="collapse navbar-collapse">
         <ul class="nav navbar-nav">
             <li class="<?php if($this->router->class == 'admin'){echo 'active';}?>"><a href="<?php echo site_url('admin/panel');?>">Panel</a></li>
-            <li class="<?php if($this->router->class == 'order'){echo 'active';}?>"><a href="<?php echo site_url('order')?>">订单</a></li>
             <li class="<?php if($this->router->class == 'taobao'){echo 'active';}?>"><a href="<?php echo site_url('taobao')?>">Tao</a></li>
             <li class="<?php if($this->router->class == 'etsy'){echo 'active';}?>"><a href="<?php echo site_url('etsy')?>">Etsy</a></li>
+            <li class="<?php if($this->router->class == 'connect'){echo 'active';}?>"><a href="<?php echo site_url('connect')?>">关联</a></li>
+            <li class="<?php if($this->router->class == 'order'){echo 'active';}?>"><a href="<?php echo site_url('order')?>">订单</a></li>
             <li class="<?php if($this->router->class == 'track'){echo 'active';}?>"><a href="<?php echo site_url('track')?>">追踪</a></li>
         </ul>
         <form class="navbar-form navbar-left" role="search">

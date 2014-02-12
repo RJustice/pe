@@ -14,28 +14,37 @@ class Petsy{
     
     function getListing($listing_id){
         $uri = 'listings/'.$listing_id;
+        $this->ci->rest->option(CURLOPT_SSL_VERIFYPEER,FALSE);
         $listing = $this->ci->rest->get($uri,array(
                 'api_key' => $this->api_key,
             ),'json');
         if($this->ci->rest->status() == '404'){
             return FALSE;
         }
-        return $listing;
+        return $listing['results'][0];
     }
 
-    function getListingShpping($listing_id){
+    function getListingShipping($listing_id){
         $uri = 'listings/'.$listing_id.'/shipping/info';
+        $this->ci->rest->option(CURLOPT_SSL_VERIFYPEER,FALSE);
         $shipping = $this->ci->rest->get($uri,array(
                 'api_key' => $this->api_key,
             ),'json');
-        return $shipping;
+        if($this->ci->rest->status() == '404'){
+            return FALSE;
+        }
+        return $shipping['results'];
     }
 
     function getListingImages($listing_id){
         $uri = 'listings/'.$listing_id.'/images';
+        $this->ci->rest->option(CURLOPT_SSL_VERIFYPEER,FALSE);
         $images = $this->ci->rest->get($uri,array(
                 'api_key' => $this->api_key,
             ),'json');
-        return $images;
+        if($this->ci->rest->status() == '404'){
+            return FALSE;
+        }
+        return $images['results'];
     }
 }

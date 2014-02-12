@@ -5,7 +5,7 @@
         .tao-main .glyphicon{font-size:20px;}
         .tao-main .glyphicon-ok-circle{color:#2ecc71;}
         .tao-main .glyphicon-remove-circle{color:#e74c3c;}
-        .tao-main tr td{line-height: 50px;}
+        table.tao-main tr td{line-height: 50px;}
         </style>
         
         <table class="table table-hover tao-main">

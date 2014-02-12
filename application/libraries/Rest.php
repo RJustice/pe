@@ -294,7 +294,7 @@ class REST
 		$data = array();
 
 		// Splits
-		$rows = explode("\n", trim($string));
+                     $rows = explode("\n", trim($string));
 		$headings = explode(',', array_shift($rows));
 		foreach( $rows as $row )
 		{

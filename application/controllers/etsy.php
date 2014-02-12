@@ -28,7 +28,7 @@ class Etsy extends CI_Controller {
         }
         $pagination = pagination(site_url('etsy/index'),20,$this->letsy->getTotal());
         $this->template->inject_partial('pagination',$pagination);
-        $this->template->build('admin/etsy/main');
+        $this->template->build('admin/etsy/main',array('items' => $items));
     }
 
     //下载图片
@@ -57,18 +57,25 @@ class Etsy extends CI_Controller {
                 $listing_id = intval($etsy_key);
             }
             if(empty($listing_id)){
-                $data['message'] = '<div class="alert alert-success">ERROR 1</div>';
+                $data['message'] = '<div class="alert alert-danger">ERROR 1</div>';
                 $this->template->build('admin/etsy/etsy_add',$data);
-                return FALSE;
+                return TRUE;
             }
             $this->load->library('petsy');
             $item = $this->petsy->getListing($listing_id);
-            if($item == FALSE){
-                $data['message'] = '<div class="alert alert-success">ERROR 2</div>';
+            if(isset($item['state']) && $item['state'] == 'sold_out'){
+                $data['message'] = '<div class="alert alert-warning">SOLD OUT</div>';
                 $this->template->build('admin/etsy/etsy_add',$data);
-                return FALSE;
+                return TRUE;
             }
-            if($this->letsy->storeItem($item['results'])){
+            $item['images'] = $this->petsy->getListingImages($listing_id);
+            $item['shipping'] = $this->petsy->getListingShipping($listing_id);
+            if($item == FALSE){
+                $data['message'] = '<div class="alert alert-danger">ERROR 2</div>';
+                $this->template->build('admin/etsy/etsy_add',$data);
+                return TRUE;
+            }
+            if($this->letsy->storeItem($item)){
                 $data['message'] = '<div class="alert alert-success">SUCCESS</div>';
                 $this->template->build('admin/etsy/etsy_add',$data);
                 return TRUE;
@@ -77,7 +84,22 @@ class Etsy extends CI_Controller {
     }
 
     function updateEtsyItems($page = ''){
+        if(empty($page)){
+            $page = 1;
+        }
 
+        $listing_ids = $ths->letsy->getAllLinkedListings($page,5);
+        if($listing_ids == FALSE){
+            redirect('etsy');
+        }
+        $total = $this->letsy->getTotal();
+        $this->aetsy->updateListings($listing_ids);
+        $this->template->append_metadata( '<meta http-equiv="refresh" content="5; url='.site_url('etsy/updateetsyitems/'.($page+1)).'" />');
+        
+        $this->template->build('admin/tao/update_redirect',array(
+                    'total' => $total,
+                    'page' => $page
+                ));
     }
 }
 
