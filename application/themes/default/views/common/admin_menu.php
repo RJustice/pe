@@ -7,6 +7,7 @@
             <li class="<?php if($this->router->class == 'connect'){echo 'active';}?>"><a href="<?php echo site_url('connect')?>">关联</a></li>
             <li class="<?php if($this->router->class == 'order'){echo 'active';}?>"><a href="<?php echo site_url('order')?>">订单</a></li>
             <li class="<?php if($this->router->class == 'track'){echo 'active';}?>"><a href="<?php echo site_url('track')?>">追踪</a></li>
+            <li class="<?php if($this->router->class == 'bookkeeping'){echo 'active';}?>"><a href="<?php echo site_url('bookkeeping')?>">账簿</a></li>
         </ul>
         <form class="navbar-form navbar-left" role="search">
             <div class="form-group">

@@ -8,6 +8,7 @@ class LEtsy extends CI_Model {
     {
         parent::__construct();
         $this->_table = $this->db->dbprefix('etsy');
+        $this->load->library('currency');
     }
 
     function getItems($page =1,$limit =20){
@@ -45,20 +46,42 @@ class LEtsy extends CI_Model {
     }
 
     function storeItem($data){
+        foreach($data['images'] as $img){
+            $images[] = array(
+                    'full_height' => $img['full_height'],
+                    'full_width' => $img['full_width'],
+                    'full' => $img['url_fullxfull'],
+                    '570' => $img['url_570xN'],
+                    '170' => $img['url_170x135'],
+                    '75' => $img['url_75x75']
+            );
+        }
+
+        foreach($data['shipping'] as $shipping){
+            $shippings[] = array(
+                'origin_country_name' => $shipping['origin_country_name'],
+                'destination_country_name' => $shipping['destination_country_name'],
+                'currency_code' => $shipping['currency_code'],
+                'primary_cost' => $shipping['primary_cost'],
+                'secondary_cost' => $shipping['secondary_cost'],
+                'primary_cny_price' => $this->currency->getCurrency($shipping['currency_code'],'CNY',$shipping['primary_cost']),
+                'secondary_cny_price' => $this->currency->getCurrency($shipping['currency_code'],'CNY',$shipping['secondary_cost']),
+            );
+        }
         $etsyData = array(
                 'uid' => $this->session->userdata('user.uid'),
                 'etsy_id' => $data['listing_id'],
                 'etsy_title' => $data['title'],
                 'etsy_price' => $data['price'],
+                'cny_price' => $this->currency->getCurrency($data['currency_code'],'CNY',$data['price']),
                 'etsy_qty' => $data['quantity'],
                 'etsy_img' => $data['images'][0]['url_75x75'],
                 'etsy_currency' => $data['currency_code'],
                 'etsy_params' => serialize(array(
-                    'images' => $data['images'],
-                    'shipping' => $data['shipping']
+                    'images' => $images,
+                    'shipping' => $shippings
                 ))
             );
-        $images = array();
         $query = 'select pe_etsy_id from '.$this->_table.' where etsy_id = ?';
         $ex = $this->db->query($query,array($data['listing_id']));
         if($ex->num_rows() > 0){
@@ -82,10 +105,29 @@ class LEtsy extends CI_Model {
     function getAllLinkedListings($page = 1,$limit = 20){
         $query = 'select SQL_CALC_FOUND_ROWS etsy_id from '.$this->_table.' where linked = 1 limit ?,?' ;
         $rs = $this->db->query($query,array( ($page-1)*$limit,$limit ));
-        if($rs->num_rows() > 0){
-            return $rs->result_array();
+        if($rs->num_rows() > 0){            
+            foreach($rs->result_array() as $row){
+                $listing_ids[] = $row['etsy_id'];
+            }
+            return $listing_ids;
         }
         return FALSE;
+    }
+
+    function updateLocalhostListing($data){
+        if(isset($data['state']) && $data['state'] == 'sold_out'){
+            $this->db->query('update '.$this->_table.' set state = 0 where etsy_id = '.$data['listing_id']);
+            return ;
+        }
+        $update_data = array(
+            'etsy_title' => $data['title'],
+            'etsy_price' => $data['price'],
+            'cny_price' => $this->currency->getCurrency($data['currency_code'],'CNY',$data['price']),
+            'etsy_qty' => $data['quantity'],
+            'etsy_currency' => $data['currency_code'],
+        );
+        $this->db->update('etsy',$update_data,'etsy_id = '.$data['listing_id']);
+        return ;
     }
 }
 

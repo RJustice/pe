@@ -88,7 +88,8 @@ class User extends CI_Controller {
                 're_expires_in' => $token['re_expires_in'],
                 'tao_nick' => urldecode($token['taobao_user_nick']),
                 'tao_uid' => $token['taobao_user_id'],
-                'tao_avatar' => $tao_user['user_seller_get_response']['user']['avatar']
+                'tao_avatar' => $tao_user['user_seller_get_response']['user']['avatar'],
+                'createtime' => time()
             );
         if(is_logged(FALSE)){
             $this->m_user->band($provider,$band_data);

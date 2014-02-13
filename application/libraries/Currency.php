@@ -7,12 +7,12 @@ class Currency{
     function __construct(){
         $this->ci =& get_instance();
         $this->ci->load->library('rest');
-        $this->ci->rest->server($this->api);
     }
 
     function updateCurrencies(){
         $uri = 'quote';
         $params = array('format'=>'json');
+        $this->ci->rest->server($this->api);
         $currencies = $this->ci->rest->get($uri,$params,'json');
         foreach($currencies['resources'] as $currency){
             if($currency['resources']['fields']['volume'] != 0){
@@ -30,6 +30,7 @@ class Currency{
     function initCurrency(){
         $uri = 'quote';
         $params = array('format'=>'json');
+        $this->ci->rest->server($this->api);
         $currencies = $this->ci->rest->get($uri,$params,'json');
         foreach($currencies['list']['resources'] as $currency){
             if($currency['resource']['fields']['volume'] != 0){
@@ -44,11 +45,11 @@ class Currency{
         return TRUE;
     }
 
-    function getCurrency($from,$to){
+    function getCurrency($from,$to,$count =1){
         if($from == 'USD'){
             $currency = $this->ci->db->query('select value from pe_currency where currency_code = ?',array('USD/'.$to));
             if($currency->num_rows() > 0){
-                return $currency->row()->value;
+                return number_format($currency->row()->value * $count,4,'.','');
             }
             return FALSE;
         }else{
@@ -58,8 +59,8 @@ class Currency{
                 $c2 = $rs->row_array(1);
                 $cto = $c1['currency_code'] == 'USD/'.$to ?$c1['value']:$c2['value'];
                 $cfrom = $c1['currency_code'] == 'USD/'.$from ?$c1['value']:$c2['value'];
-                $currency = floatval( $cto / $cfrom);
-                return $currency;
+                $currency =floatval( $cto / $cfrom);
+                return number_format($currency * $count,4,'.','');
             }
             return FALSE;
         }

@@ -3,10 +3,12 @@
 class LTao extends CI_Model {
 
     protected $_table;
+    protected $_etable;
 
     function __construct(){
         parent::__construct();
         $this->_table = $this->db->dbprefix('tao');
+        $this->_etable = $this->db->dbprefix('etsy');
     }
     
     function getItems($page = 1,$limit = 20){
@@ -19,9 +21,12 @@ class LTao extends CI_Model {
             ));
         if($rs->num_rows() > 0){
             foreach($rs->result_array() as $row){
+                $row['tao_params'] = unserialize($row['tao_params']);
+                $row['etsy_info'] = $row['linked'] ? unserialize($row['etsy_info']) : '';
                 $items[] = $row;
             }
             return $items;
+            // return $rs->result_array();
         }
         return FALSE;
     }
@@ -82,6 +87,16 @@ class LTao extends CI_Model {
             'etsy_id' => $data['etsy_id'],
             'pe_etsy_id' => $data['pe_etsy_id'],
         );
+        $this->load->library('currency');
+        $etsy = $this->db->query('select etsy_price,etsy_currency,cny_price,etsy_img,etsy_params from '.$this->_etable.' where pe_etsy_id = '.$data['pe_etsy_id']);
+        $etsy_params = unserialize($etsy->row()->etsy_params);
+        $update_data['etsy_info'] = serialize(array(
+                'etsy_img' => $etsy->row()->etsy_img,
+                'etsy_price' => $etsy->row()->etsy_price,
+                'etsy_currency' => $etsy->row()->etsy_currency,
+                'cny_price' => $etsy->row()->cny_price,
+                'etsy_shipping' => $etsy_params['shipping']
+            ));
         $this->db->update('tao',$update_data,'pe_tao_id = '.$data['pe_tao_id']);
     }
 }

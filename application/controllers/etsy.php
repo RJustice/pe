@@ -68,7 +68,9 @@ class Etsy extends CI_Controller {
                 $this->template->build('admin/etsy/etsy_add',$data);
                 return TRUE;
             }
+            usleep(500000);
             $item['images'] = $this->petsy->getListingImages($listing_id);
+            usleep(500000);
             $item['shipping'] = $this->petsy->getListingShipping($listing_id);
             if($item == FALSE){
                 $data['message'] = '<div class="alert alert-danger">ERROR 2</div>';
@@ -88,7 +90,7 @@ class Etsy extends CI_Controller {
             $page = 1;
         }
 
-        $listing_ids = $ths->letsy->getAllLinkedListings($page,5);
+        $listing_ids = $this->letsy->getAllLinkedListings($page,5);
         if($listing_ids == FALSE){
             redirect('etsy');
         }

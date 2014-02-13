@@ -87,7 +87,8 @@ class M_User extends CI_Model {
                 'refresh_token' => $token['refresh_token'],
                 're_expires_in' => $token['re_expires_in'],
                 'tao_nick' => urldecode($token['taobao_user_nick']),
-                'tao_uid' => $token['taobao_user_id']
+                'tao_uid' => $token['taobao_user_id'],
+                'createtime' => time()
             );
         $this->band('taobao',$band_data);
     }
