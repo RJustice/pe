@@ -33,7 +33,7 @@
                     <td><?php echo $item['etsy_title'];?></td>
                     <td><?php echo $item['etsy_price'];?></td>
                     <td><?php echo $item['etsy_currency'];?></td>
-                    <td><?php echo $item['cny'];?></td>
+                    <td><?php echo $item['cny_price'];?></td>
                     <td><?php echo $item['etsy_qty'];?></td>
                     <td>
                         <?php if($item['linked']){?>

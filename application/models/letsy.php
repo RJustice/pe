@@ -3,6 +3,7 @@
 class LEtsy extends CI_Model {
 
     public $_table;
+    public $total;
 
     public function __construct()
     {
@@ -18,11 +19,8 @@ class LEtsy extends CI_Model {
                 $limit,
             ));
         if($rs->num_rows() > 0){
-            $this->load->library('currency');
             foreach($rs->result_array() as $row){
                 $row['etsy_params'] = unserialize($row['etsy_params']);
-                $row['cny'] = $this->currency->getCurrency($row['etsy_currency'],'CNY');
-                $row['cny'] = number_format($row['cny'] * $row['etsy_price'],2,'.',' ');
                 $items[] = $row;
             }
             return $items;

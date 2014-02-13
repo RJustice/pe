@@ -50,7 +50,7 @@ class Etsy extends CI_Controller {
         }else{
             $etsy_key = $this->input->post('etsy_key',TRUE);
             if(stripos($etsy_key,'etsy.com') !== FALSE){
-                if(preg_match('/\d{9}/', $etsy_key,$match)){
+                if(preg_match('/\d{8,9}/', $etsy_key,$match)){
                     $listing_id = $match[0];
                 }
             }else{
