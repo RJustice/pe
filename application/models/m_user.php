@@ -34,6 +34,7 @@ class M_User extends CI_Model {
                         'nick' => $this->user['name'],
                         'band_state' => ( ! isset($this->user['band_params']['band_state']))?array():$this->user['band_params']['band_state'],
                         'band' => ( ! isset($this->user['band_params']['band']))?array():$this->user['band_params']['band'],
+                        'state' => $this->user['state'],
                     )
                 );
             $this->session->set_userdata($data);
@@ -68,7 +69,8 @@ class M_User extends CI_Model {
                     'uid' => $uid,
                     'nick' => $user['nick'],
                     'band_state' => $band_state,
-                    'band' => $band
+                    'band' => $band,
+                    'state' => $user['state'],
                 ));
             return TRUE;
         }else{

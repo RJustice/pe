@@ -4,14 +4,14 @@
         .tao-main .glyphicon{font-size:20px;}
         .tao-main .glyphicon-ok-circle{color:#2ecc71;}
         .tao-main .glyphicon-remove-circle{color:#e74c3c;}
-        table.tao-main tr td{line-height: 50px;}
+        /*table.tao-main tr td{line-height: 50px;}*/
         </style>
         
         <table class="table table-hover tao-main">
             <thead>
                 <tr>
                     <th>#ID</th>
-                    <th>Img</th>
+                    <th style="width:70px;">Img</th>
                     <th>Title</th>
                     <th>Price</th>
                     <th>Currency</th>

@@ -2,7 +2,6 @@
 .tao-main .glyphicon{font-size:20px;}
 .tao-main .glyphicon-ok-circle{color:#2ecc71;}
 .tao-main .glyphicon-remove-circle{color:#e74c3c;}
-table.tao-main tr td{line-height: 50px;height: 50px;overflow: hidden;}
 table tr.taotrselected{background-color: #f47920;}
 table tr.etsytrselected{background-color: #f15a22;}
 </style>
@@ -31,7 +30,7 @@ table tr.etsytrselected{background-color: #f15a22;}
                 <tbody>
                     <?php foreach($tao as $taoitem){?>
                     <tr data-info={"tao_id":"<?php echo $taoitem['tao_id'];?>","pe_tao_id":"<?php echo $taoitem['pe_tao_id'];?>"} class="tao_tr">
-                        <td>
+                        <td style="width:70px;">
                             <img src="<?php echo $taoitem['tao_img'];?>" style="width:50px;height:50px;" alt="" class="img-thumbnail"/>
                         </td>
                         <td>
@@ -51,7 +50,7 @@ table tr.etsytrselected{background-color: #f15a22;}
                 <tbody>
                     <?php foreach($etsy as $etsyitem){?>
                     <tr data-info={"etsy_id":"<?php echo $etsyitem['etsy_id'];?>","pe_etsy_id":"<?php echo $etsyitem['pe_etsy_id'];?>"} class="etsy_tr">
-                        <td>
+                        <td style="width:70px;">
                             <img src="<?php echo $etsyitem['etsy_img'];?>" style="width:50px;height:50px;" alt="" class="img-thumbnail"/>
                         </td>
                         <td>

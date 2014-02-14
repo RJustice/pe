@@ -37,7 +37,7 @@ class Taobao extends CI_Controller {
     }
 
     function updateTaoItems($page = ''){
-        if(empty($page)){
+        if(empty($page) || $page == 'index.php'){
             $page = 1;
         }
         $items = $this->atao->getItemsOnsale($this->session->userdata('user.band.taobao.access_token'),$page);
@@ -46,7 +46,7 @@ class Taobao extends CI_Controller {
         }
         $total = $items['total_results'];
         $this->ltao->updateTaoItems($items['items']['item']);
-        if($total < ($page * 40)){
+        if($total < ( $page * 40)){
             redirect('taobao/items');
         }else{
             $this->template->append_metadata( '<meta http-equiv="refresh" content="5; url='.site_url('taobao/updatetaoitems/'.($page+1)).'" />');

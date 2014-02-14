@@ -36,7 +36,7 @@ class ATao extends CI_Model {
     function getItemsOnsale($access_token,$page){
         $this->params['method'] = 'taobao.items.onsale.get';
         $this->params['access_token'] = $access_token;
-        $this->params['page'] = $page;
+        $this->params['page_no'] = $page;
         $this->params['fields'] = 'approve_status,cid,iid,num,price,title,props,nick,pic_url';
         $this->rest->server($this->api_url);
         $this->rest->option(CURLOPT_SSL_VERIFYPEER,FALSE);

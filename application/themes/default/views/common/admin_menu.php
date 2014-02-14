@@ -17,10 +17,10 @@
         </form>
         <a href="<?php echo site_url('user/logout');?>" class="btn btn-danger navbar-btn navbar-right">退出</a>
         <p class="navbar-text navbar-right"><?php echo $this->session->userdata('user.nick');?></p>
-        <p class="navbar-text navbar-right">
         <?php if(is_taooauth_expires()){ ?>
-            <a href="<?php echo site_url('user/bandtao');?>" class="btn btn-warning">重新登录淘宝</a>
+        <a href="<?php echo site_url('user/bandtao');?>" class="btn btn-warning navbar-btn navbar-right">重新登录淘宝</a>
+        <?php }else{ ?>
+        <a href="<?php echo site_url('user/refresh_token');?>" class="btn btn-warning navbar-btn navbar-right">手动刷新Token</a>
         <?php }?>
-        </p>
     </div>
 </nav>
