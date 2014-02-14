@@ -1,6 +1,5 @@
-<div class="container">
+<div class="container-fluit">
     <?php echo isset($template['partials']['submenu'])?$template['partials']['submenu']:'';?>
-    <div class="container">
         <style>
         .tao-main .glyphicon{font-size:20px;}
         .tao-main .glyphicon-ok-circle{color:#2ecc71;}
@@ -48,5 +47,4 @@
                 </tr>
             </tbody>
         </table>
-    </div>
 </div>

@@ -16,7 +16,7 @@
         });
         $('.etsy_tr').bind('click',function(){
             var etsydata = $(this).data('info');
-            $('etsy_tr.etsytrselected').removeClass('etsytrselected');
+            $('.etsy_tr.etsytrselected').removeClass('etsytrselected');
             $(this).addClass('etsytrselected');
             $('#etsy_select').html($(this).find('img').clone());
             $('#etsy_id').val(etsydata.etsy_id);
@@ -24,6 +24,10 @@
             if($('#tao_id').val() != 0){
                 $('#linkBtn').prop('disabled',false);
             }
+        });
+        $('.show_more').bind('click',function(){
+            var id = $(this).data('info').pe_tao_id;
+            $("#extra_"+id).toggle('normal');
         });
     });
     </script>

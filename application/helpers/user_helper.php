@@ -32,9 +32,9 @@ if( ! function_exists('is_taooauth_expires()')){
         $create_time = $ci->session->userdata('user.band.taobao.createtime');
         $now = time();
         if( ($now - $create_time) > $exp_time ){
-            return FALSE;
-        }else{
             return TRUE;
+        }else{
+            return FALSE;
         }
     }
 }

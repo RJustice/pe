@@ -12,7 +12,7 @@ table tr.etsytrselected{background-color: #f15a22;}
             <div class="col-md-2 col-md-offset-3" id="tao_select">
                 <img src="holder.js/50x50" alt="" class="img-thumbnail"/>
             </div>
-            <div class="col-md-2 col-md-offset-2" id="etsy_select">
+            <div class="col-md-2 col-md-offset-3" id="etsy_select">
                 <img src="holder.js/50x50" alt="" class="img-thumbnail"/>
             </div>            
             <div class="col-md-2">
@@ -45,7 +45,7 @@ table tr.etsytrselected{background-color: #f15a22;}
             <div class="alert alert-info">淘宝的商品已经全部关联了Etsy的商品</div>
             <?php }?>
         </div>
-        <div class="col-md-5 col-md-offset-1">
+        <div class="col-md-5">
             <?php if($etsy){?>
             <table class="table tao-main">
                 <tbody>
