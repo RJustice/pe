@@ -24,3 +24,17 @@ if( ! function_exists('is_band_taobao')){
         return FALSE;
     }
 }
+
+if( ! function_exists('is_taooauth_expires()')){
+    function is_taooauth_expires(){
+        $ci = & get_instance();
+        $exp_time = $ci->session->userdata('user.band.taobao.expires_in');
+        $create_time = $ci->session->userdata('user.band.taobao.createtime');
+        $now = time();
+        if( ($now - $create_time) > $exp_time ){
+            return FALSE;
+        }else{
+            return TRUE;
+        }
+    }
+}

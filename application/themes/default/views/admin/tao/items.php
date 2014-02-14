@@ -42,7 +42,7 @@
                     <?php if($item['linked']){?>
                     <td><a href="#"><img src="<?php echo $item['etsy_info']['etsy_img'];?>" style="width:50px;height:50px;" alt="" class="img-thumbnail"></a></td>
                     <td>
-                        <p data-toggle="tooltip" data-html="true" data-placement="top" data-original-title='' title=''><span style="color:#f58220;"><?php echo $item['etsy_info']['etsy_currency'].' '.$item['etsy_info']['etsy_price'];?></span>+<span style="color:#5c7a29"><?php echo $item['etsy_info']['etsy_shipping'][0]['primary_cost'];?></span></p>
+                        <p data-toggle="tooltip" data-html="true" data-placement="top" data-original-title='' title=''><?php echo $item['etsy_info']['etsy_currency']?>&nbsp;<span style="color:#f58220;"><?php echo $item['etsy_info']['etsy_price'];?></span>+<span style="color:#5c7a29"><?php echo $item['etsy_info']['etsy_shipping'][0]['primary_cost'];?></span></p>
                     </td>
                     <?php }else{ ?>
                     <td colspan="2"></td>

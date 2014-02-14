@@ -37,7 +37,11 @@ class User extends CI_Controller {
                     $this->m_user->band($this->session->userdata('unband_data.app'),$this->session->userdata('unband_data.data'));
                     redirect('admin/panel');
                 }else{
-                    redirect('admin/panel');
+                    if(is_band_taobao()){
+                        $this->refresh_token();
+                    }else{
+                        redirect('admin/panel');
+                    }
                 }
             }
         }
@@ -101,8 +105,12 @@ class User extends CI_Controller {
     }
 
     function refresh_token(){
-        $this->m_user->refresh_taotoken();
-        redirect('admin/panel');
+        if(is_taooauth_expires()){
+            $this->bandtao();
+        }else{
+            $this->m_user->refresh_taotoken();
+            redirect('admin/panel');
+        }
     }
 }
 
