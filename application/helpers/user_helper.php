@@ -15,10 +15,10 @@ if( ! function_exists('is_logged')){
     }
 }
 
-if( ! function_exists('is_band_taobao')){
-    function is_band_taobao(){
+if( ! function_exists('is_bind_taobao')){
+    function is_bind_taobao(){
         $ci =& get_instance();
-        if($ci->session->userdata('user.band_state.taobao')){
+        if($ci->session->userdata('user.bind_state.taobao')){
             return TRUE;
         }
         return FALSE;
@@ -28,8 +28,8 @@ if( ! function_exists('is_band_taobao')){
 if( ! function_exists('is_taooauth_expires()')){
     function is_taooauth_expires(){
         $ci = & get_instance();
-        $exp_time = $ci->session->userdata('user.band.taobao.expires_in');
-        $create_time = $ci->session->userdata('user.band.taobao.createtime');
+        $exp_time = $ci->session->userdata('user.bind.taobao.expires_in');
+        $create_time = $ci->session->userdata('user.bind.taobao.createtime');
         $now = time();
         if( ($now - $create_time) > $exp_time ){
             return TRUE;

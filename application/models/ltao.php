@@ -15,7 +15,7 @@ class LTao extends CI_Model {
         $query = 'select SQL_CALC_FOUND_ROWS * from '.$this->_table.' where uid = ? and tao_nick = ? order by tao_id desc limit ?,?';
         $rs = $this->db->query($query,array(
                 $this->session->userdata('user.uid'),
-                $this->session->userdata('user.band.taobao.tao_nick'),
+                $this->session->userdata('user.bind.taobao.tao_nick'),
                 (($page -1) * $limit),
                 $limit
             ));

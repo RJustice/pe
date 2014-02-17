@@ -19,21 +19,21 @@ class M_User extends CI_Model {
         if($this->user){
             return $this->user;
         }
-        $query = ' select id,username,name,band_params,state from '.$this->_table.' where username = ? and password = ? limit 1';
+        $query = ' select id,username,name,bind_params,state from '.$this->_table.' where username = ? and password = ? limit 1';
         $rs = $this->db->query($query,array(
                 $username,
                 md5($password)
             ));
         if($rs->num_rows() > 0){
             $this->user = $rs->row_array();            
-            $this->user['band_params'] = unserialize($this->user['band_params']);
+            $this->user['bind_params'] = unserialize($this->user['bind_params']);
             $data = array(
                     'logged' => TRUE,
                     'user' => array(
                         'uid' => $this->user['id'],
                         'nick' => $this->user['name'],
-                        'band_state' => ( ! isset($this->user['band_params']['band_state']))?array():$this->user['band_params']['band_state'],
-                        'band' => ( ! isset($this->user['band_params']['band']))?array():$this->user['band_params']['band'],
+                        'bind_state' => ( ! isset($this->user['bind_params']['bind_state']))?array():$this->user['bind_params']['bind_state'],
+                        'bind' => ( ! isset($this->user['bind_params']['bind']))?array():$this->user['bind_params']['bind'],
                         'state' => $this->user['state'],
                     )
                 );
@@ -42,34 +42,34 @@ class M_User extends CI_Model {
         return $this->user;
     }
 
-    function band($app = NULL,$band_data = NULL){
-        if( ! $app || ! $band_data){
+    function bind($app = NULL,$bind_data = NULL){
+        if( ! $app || ! $bind_data){
             return FALSE;
         }
         $user = $this->session->userdata('user');
         $uid = $user['uid'];
-        $band_state = $user['band_state'];
-        $band = $user['band'];
+        $bind_state = $user['bind_state'];
+        $bind = $user['bind'];
         // $uid = $this->session->userdata('user.id');
-        // $band_state = $this->session->userdata('user.band_state');
-        // $band = $this->session->userdata('user.band'); 
-        $band_state[$app] = TRUE;
-        unset($band[$app]);
-        $band[$app] = $band_data;
+        // $bind_state = $this->session->userdata('user.bind_state');
+        // $bind = $this->session->userdata('user.bind'); 
+        $bind_state[$app] = TRUE;
+        unset($bind[$app]);
+        $bind[$app] = $bind_data;
         $data = array(
-            'band_state' => $band_state,
-            'band' => $band
+            'bind_state' => $bind_state,
+            'bind' => $bind
         );
-        $query = ' update '.$this->_table.' set band_params = ? where id = ? ';
+        $query = ' update '.$this->_table.' set bind_params = ? where id = ? ';
         $this->db->query($query,array(serialize($data),$uid));
         if($this->db->affected_rows() > 0){
-            $this->session->unset_userdata('unband_data');
+            $this->session->unset_userdata('unbind_data');
             $this->session->unset_userdata('user');
             $this->session->set_userdata('user',array(
                     'uid' => $uid,
                     'nick' => $user['nick'],
-                    'band_state' => $band_state,
-                    'band' => $band,
+                    'bind_state' => $bind_state,
+                    'bind' => $bind,
                     'state' => $user['state'],
                 ));
             return TRUE;
@@ -82,8 +82,8 @@ class M_User extends CI_Model {
         $this->config->load('oauth2');
         $config = $this->config->item('oauth2');
         $this->load->library('oauth2',$config['taobao']);
-        $token = $this->oauth2->access($this->session->userdata('user.band.taobao.refresh_token'),array('grant_type'=>'refresh_token'));
-        $band_data = array(
+        $token = $this->oauth2->access($this->session->userdata('user.bind.taobao.refresh_token'),array('grant_type'=>'refresh_token'));
+        $bind_data = array(
                 'access_token' => $token['access_token'],
                 'expires_in' => $token['expires_in'],
                 'refresh_token' => $token['refresh_token'],
@@ -92,7 +92,7 @@ class M_User extends CI_Model {
                 'tao_uid' => $token['taobao_user_id'],
                 'createtime' => time()
             );
-        $this->band('taobao',$band_data);
+        $this->bind('taobao',$bind_data);
     }
 }
 

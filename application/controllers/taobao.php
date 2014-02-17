@@ -40,7 +40,7 @@ class Taobao extends CI_Controller {
         if(empty($page) || $page == 'index.php'){
             $page = 1;
         }
-        $items = $this->atao->getItemsOnsale($this->session->userdata('user.band.taobao.access_token'),$page);
+        $items = $this->atao->getItemsOnsale($this->session->userdata('user.bind.taobao.access_token'),$page);
         if($items == FALSE){
             exit('ERROR');
         }

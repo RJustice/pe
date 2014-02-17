@@ -33,11 +33,11 @@ class User extends CI_Controller {
                 $data['error'] = '<div class="alert alert-danger">Login Failed</div>';
                 $this->template->build('admin/user/login_form',$data);
             }else{
-                if($this->session->userdata('unband_data')){
-                    $this->m_user->band($this->session->userdata('unband_data.app'),$this->session->userdata('unband_data.data'));
+                if($this->session->userdata('unbind_data')){
+                    $this->m_user->bind($this->session->userdata('unbind_data.app'),$this->session->userdata('unbind_data.data'));
                     redirect('admin/panel');
                 }else{
-                    if(is_band_taobao()){
+                    if(is_bind_taobao()){
                         $this->refresh_token();
                     }else{
                         redirect('admin/panel');
@@ -52,7 +52,7 @@ class User extends CI_Controller {
         redirect('user/login');
     }
 
-    function bandtao(){
+    function bindtao(){
         $provider = 'taobao';
         if(empty($provider)){
             redirect('404');
@@ -85,7 +85,7 @@ class User extends CI_Controller {
             'fields' => 'user_id,nick,avatar'
             );
         $tao_user = $this->rest->get('rest',$params,'json');
-        $band_data = array(
+        $bind_data = array(
                 'access_token' => $token['access_token'],
                 'expires_in' => $token['expires_in'],
                 'refresh_token' => $token['refresh_token'],
@@ -96,17 +96,17 @@ class User extends CI_Controller {
                 'createtime' => time()
             );
         if(is_logged(FALSE)){
-            $this->m_user->band($provider,$band_data);
+            $this->m_user->bind($provider,$bind_data);
             redirect('admin/panel');
         }else{
-            $this->session->set_userdata('unband_data',array('app'=>$provider,'data'=>$band_data));
+            $this->session->set_userdata('unbind_data',array('app'=>$provider,'data'=>$bind_data));
             redirect('user/login');
         }
     }
 
     function refresh_token(){
         if(is_taooauth_expires()){
-            $this->bandtao();
+            $this->bindtao();
         }else{
             $this->m_user->refresh_taotoken();
             redirect('admin/panel');
