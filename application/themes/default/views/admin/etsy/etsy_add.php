@@ -5,6 +5,9 @@
             <?php echo validation_errors(); ?>
             <?php if(isset($message)){echo $message;}?>
             <form action="<?php echo site_url('etsy/add');?>" method="post" id="etsyAddForm" role="form" class="form-inline">
+                <div class="form-group col-md-12">
+                    <label for="homology"><input type="checkbox" value="<?php echo $homology;?>" name="homology" id="homology">是否与之前同源</label>
+                </div>
                 <div class="form-group col-md-11">
                     <input type="text" name="etsy_key" id="etsy_key" value="" class="form-control" placeholder="Etsy的链接或者Etsy商品ID" required />
                 </div>

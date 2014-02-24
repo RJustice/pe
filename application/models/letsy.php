@@ -35,7 +35,7 @@ class LEtsy extends CI_Model {
     }
 
     function getUnLinkedEtsy(){
-        $query = 'select pe_etsy_id,etsy_id,etsy_title,etsy_img from '.$this->_table.' where linked = 0 ';
+        $query = 'select pe_etsy_id,etsy_id,etsy_title,etsy_img,etsy_params from '.$this->_table.' where linked = 0 ';
         $rs = $this->db->query($query);
         if($rs->num_rows() > 0){
             return $rs->result_array();
@@ -86,7 +86,13 @@ class LEtsy extends CI_Model {
             $pe_etsy_id = $ex->row()->pe_etsy_id;
             $this->db->update('etsy',$etsyData,array('pe_etsy_id' => $pe_etsy_id));
         }else{
+            if(!$data['homology']){
+                $etsyData['homology'] = random_string('alnum',6);
+            }else{
+                $etsyData['homology'] = $data['homology'];
+            }            
             $this->db->insert('etsy',$etsyData);
+            return $etsyData['homology'];
         }
         return TRUE;
     }

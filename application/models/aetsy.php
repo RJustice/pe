@@ -15,8 +15,7 @@ class AEtsy extends CI_Model {
         $listing = $this->rest->get($uri,array(
                 'api_key' => $this->api_key,
             ),'json');
-        $this->rest->debug();
-        if($this->rest->status() == '404'){
+        if($this->rest->status() != '200'){
             return FALSE;
         }
         return $listing['results'][0];
@@ -29,7 +28,7 @@ class AEtsy extends CI_Model {
         $shipping = $this->rest->get($uri,array(
                 'api_key' => $this->api_key,
             ),'json');
-        if($this->rest->status() == '404'){
+        if($this->rest->status() != '200'){
             return FALSE;
         }
         return $shipping['results'];
@@ -42,7 +41,7 @@ class AEtsy extends CI_Model {
         $images = $this->rest->get($uri,array(
                 'api_key' => $this->api_key,
             ),'json');
-        if($this->rest->status() == '404'){
+        if($this->rest->status() != '200'){
             return FALSE;
         }
         return $images['results'];

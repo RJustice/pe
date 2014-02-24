@@ -11,7 +11,7 @@ table tr.etsytrselected{background-color: #f15a22;}
             <div class="col-md-2 col-md-offset-3" id="tao_select">
                 <img src="holder.js/50x50" alt="" class="img-thumbnail"/>
             </div>
-            <div class="col-md-2 col-md-offset-3" id="etsy_select">
+            <div class="col-md-3 col-md-offset-2" id="etsy_select">
                 <img src="holder.js/50x50" alt="" class="img-thumbnail"/>
             </div>            
             <div class="col-md-2">
@@ -51,10 +51,10 @@ table tr.etsytrselected{background-color: #f15a22;}
                     <?php foreach($etsy as $etsyitem){?>
                     <tr data-info={"etsy_id":"<?php echo $etsyitem['etsy_id'];?>","pe_etsy_id":"<?php echo $etsyitem['pe_etsy_id'];?>"} class="etsy_tr">
                         <td style="width:70px;">
-                            <img src="<?php echo $etsyitem['etsy_img'];?>" style="width:50px;height:50px;" alt="" class="img-thumbnail"/>
-                        </td>
-                        <td>
-                            <?php echo $etsyitem['etsy_title'];?>
+                            <?php $eimgs = unserialize($etsyitem['etsy_params']);
+                            foreach( $eimgs['images'] as $eimg){ ?>
+                            <img src="<?php echo $eimg['75'];?>" style="width:50px;height:50px;" alt="" class="img-thumbnail"/>
+                            <?php }?>
                         </td>
                     </tr>
                     <?php } ?>

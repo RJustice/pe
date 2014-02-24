@@ -43,12 +43,15 @@ class Etsy extends CI_Controller {
 
     function add(){
         $this->load->library('form_validation');
+        $this->load->helper('string');
         $this->form_validation->set_rules('etsy_key','required');
         $this->form_validation->set_error_delimiters('<div class="alert alert-danger">','</div>');
         if($this->form_validation->run() == FALSE){
-            $this->template->build('admin/etsy/etsy_add');
+            $data['homology'] = '1';
+            $this->template->build('admin/etsy/etsy_add',$data);
         }else{
             $etsy_key = $this->input->post('etsy_key',TRUE);
+            $homology = $this->input->post('homology');
             if(stripos($etsy_key,'etsy.com') !== FALSE){
                 if(preg_match('/\d{8,9}/', $etsy_key,$match)){
                     $listing_id = $match[0];
@@ -58,6 +61,7 @@ class Etsy extends CI_Controller {
             }
             if(empty($listing_id)){
                 $data['message'] = '<div class="alert alert-danger">ERROR 1</div>';
+                $data['homology'] = $homology;
                 $this->template->build('admin/etsy/etsy_add',$data);
                 return TRUE;
             }
@@ -65,6 +69,7 @@ class Etsy extends CI_Controller {
             $item = $this->petsy->getListing($listing_id);
             if(isset($item['state']) && $item['state'] == 'sold_out'){
                 $data['message'] = '<div class="alert alert-warning">SOLD OUT</div>';
+                $data['homology'] = $homology;
                 $this->template->build('admin/etsy/etsy_add',$data);
                 return TRUE;
             }
@@ -74,11 +79,13 @@ class Etsy extends CI_Controller {
             $item['shipping'] = $this->petsy->getListingShipping($listing_id);
             if($item == FALSE){
                 $data['message'] = '<div class="alert alert-danger">ERROR 2</div>';
+                $item['homology'] = $homology;
                 $this->template->build('admin/etsy/etsy_add',$data);
                 return TRUE;
             }
-            if($this->letsy->storeItem($item)){
+            if($reh = $this->letsy->storeItem($item)){
                 $data['message'] = '<div class="alert alert-success">SUCCESS</div>';
+                $data['homology'] = $reh;
                 $this->template->build('admin/etsy/etsy_add',$data);
                 return TRUE;
             }
@@ -102,6 +109,10 @@ class Etsy extends CI_Controller {
                     'total' => $total,
                     'page' => $page
                 ));
+    }
+
+    function homology(){
+        
     }
 }
 

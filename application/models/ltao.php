@@ -74,7 +74,7 @@ class LTao extends CI_Model {
                    'tao_price' => $item['price'],
                    'tao_qty' => $item['num'],
                    'tao_params' => serialize($tao_params),
-                   'tao_img' => $item['pic_url']
+                   'tao_img' => $item['pic_url'],
                 );
                 $this->db->insert($this->_table, $insert_data);
             }            

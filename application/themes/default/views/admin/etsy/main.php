@@ -12,7 +12,6 @@
                 <tr>
                     <th>#ID</th>
                     <th style="width:70px;">Img</th>
-                    <th>Title</th>
                     <th>Price</th>
                     <th>Currency</th>
                     <th>CNY Price</th>
@@ -27,10 +26,11 @@
                     <td>
                         <input type="checkbox" name="pe_etsy_id[]" id="<?php echo $item['pe_etsy_id'];?>">
                     </td>
-                    <td>
-                        <img src="<?php echo $item['etsy_img'];?>" style="width:50px;height:50px;" alt="" class="img-thumbnail"/>
+                    <td class="col-md-4">
+                        <?php foreach($item['etsy_params']['images'] as $img){ ?>
+                        <img src="<?php echo $img['75'];?>" style="width:50px;height:50px;" alt="" class="img-thumbnail"/>
+                        <?php } ?>
                     </td>
-                    <td><?php echo $item['etsy_title'];?></td>
                     <td><?php echo $item['etsy_price'];?></td>
                     <td><?php echo $item['etsy_currency'];?></td>
                     <td><?php echo $item['cny_price'];?></td>

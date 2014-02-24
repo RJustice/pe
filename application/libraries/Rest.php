@@ -95,7 +95,6 @@ class REST
         {
         	$uri .= '?'.(is_array($params) ? http_build_query($params) : $params);
         }
-
     	return $this->_call('get', $uri, NULL, $format);
     }
 
