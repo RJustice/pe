@@ -86,11 +86,9 @@ class LEtsy extends CI_Model {
             $pe_etsy_id = $ex->row()->pe_etsy_id;
             $this->db->update('etsy',$etsyData,array('pe_etsy_id' => $pe_etsy_id));
         }else{
-            if(!$data['homology']){
-                $etsyData['homology'] = random_string('alnum',6);
-            }else{
-                $etsyData['homology'] = $data['homology'];
-            }            
+            $this->load->helper('string');
+            $etsyData['homology'] = random_string('alnum',6);
+            $etsyData['create_time'] = date("Y-m-d");
             $this->db->insert('etsy',$etsyData);
             return $etsyData['homology'];
         }
@@ -132,6 +130,55 @@ class LEtsy extends CI_Model {
         );
         $this->db->update('etsy',$update_data,'etsy_id = '.$data['listing_id']);
         return ;
+    }
+
+    function getHomologyListings(){
+        $query = 'select *, count(pe_etsy_id) as has_homology from '.$this->_table.' group by homology order by pe_etsy_id';
+        $rs = $this->db->query($query);
+        if($rs->num_rows() > 0){
+            foreach( $rs->result_array() as $row ){
+                $row['etsy_params'] = unserialize($row['etsy_params']);
+                //$row['has_homology'] = ($row['has_homology'] > 1) ? TRUE:FALSE;
+                $items[] = $row;
+            }
+            return $items;
+        }
+        return FALSE;
+    }
+
+    function setHomology($ids){
+        $query = 'select homology from '.$this->db->dbprefix('etsy').' where pe_etsy_id in ('.$ids.')';
+        $rs = $this->db->query($query);
+        if($rs->num_rows() > 0){
+            foreach ($rs->result_array() as $row) {
+                $homologys[] = "'".$row['homology']."'";
+            }
+            $query = 'update '.$this->db->dbprefix('etsy').' set homology = ? where pe_etsy_id in ('.$ids.') or homology in ('.implode(',',$homologys).')';
+            $this->load->helper('string');
+            $homology = random_string('alnum',6);
+            $this->db->query($query,array($homology,$rs->row()->homology));
+            return TRUE;
+        }
+        return FALSE;
+    }
+
+    function getTaoLinkedListings($id)  {
+        $query = 'select * from '.$this->db->dbprefix('etsy').' where homology = (select homology from '.$this->db->dbprefix('etsy').' where pe_etsy_id = ?)';
+        $rs = $this->db->query($query,array($id));
+        if($rs->num_rows() > 0){
+            foreach ($rs->result_array() as $row) {
+                $row['etsy_params'] = unserialize($row['etsy_params']);
+                $listings[] = array(
+                        'etsy_price' => $row['etsy_price'],
+                        'etsy_currency' => $row['etsy_price'],
+                        'cny_price' => $row['etsy_price'],
+                        'etsy_shipping' => $row['etsy_params']['shipping'],
+                        'etsy_images' => $row['etsy_params']['images'],
+                    );
+            }
+            return $listings;
+        }
+        return FALSE;
     }
 }
 

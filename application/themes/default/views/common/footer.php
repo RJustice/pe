@@ -29,6 +29,39 @@
             var id = $(this).data('info').pe_tao_id;
             $("#extra_"+id).toggle('normal');
         });
+
+        $(".listing-homology").click(function(){
+            $(this).toggleClass('homology-selected');
+        });
+
+        $('#homologyForm').submit(function(){
+            if($('.homology-selected').length < 2){
+                alert('More Two! One is alone');
+                return false;
+            }
+            $('#homology').val('');
+            $('.homology-selected').each(function(){
+                $("#homology").val($("#homology").val()+","+$(this).data("info").listing_id);
+            });
+            var ids = $('#homology').val().substr(1);
+            $.ajax({
+                url:'<?php echo site_url('ajax/homology');?>',
+                type:'POST',
+                dataType:'json',
+                data:{ids:ids},
+                success:function(data){
+                    if(data.state){
+                        $('.homology-selected:eq(0) .has-homology').show();
+                        $('.homology-selected:eq(0)').removeClass('homology-selected');
+                        $('.homology-selected').hide(1000,function(){$(this).remove();});
+                        //alert(data.msg);
+                    }else{
+                        alert(data.msg);
+                    }
+                }
+            });
+            return false;
+        });
     });
     </script>
 </body>
