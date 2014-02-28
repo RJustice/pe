@@ -14,9 +14,8 @@ class Order extends CI_Controller {
 
     public function index()
     {
-        $trades = $this->aorder->getTradesSold();
-        $total = $trades['total_results'];
-        $data['trades'] = $trades['trades']['trade'];
+        $trades = $this->m_order->getTrades('ALL');
+        var_dump($trades);exit;
         $this->template->build('admin/order/main',$data);
     }
 
@@ -29,6 +28,21 @@ class Order extends CI_Controller {
         $this->m_order->updateTrades($trades['trades']['trade']);
     }
 
+    function confirmTrade(){
+        if( ! $trade_id = $this->uri->segment(3,0)){
+            exit('ERROR');
+        }
+        $this->template->build('admin/order/confirm_trade');
+    }
+
+    function showTrades(){
+        if( ! $status = $this->uri->segment(3,0)){
+            
+        }
+        $page = $this->uri->segment(4,1);
+        $trades = $this->m_order->getTrades($status,$page);
+        $this->template->build('admin/order/trades');
+    }
 }
 
 /* End of file order.php */

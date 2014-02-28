@@ -19,7 +19,43 @@ class M_Order extends CI_Model {
             'TRADE_FINISHED' => '交易成功',
             'TRADE_CLOSED' => '付款以后用户退款成功，交易自动关闭',
             'TRADE_CLOSED_BY_TAOBAO' => '付款以前，卖家或买家主动关闭交易',
+            'ALL' => '',
+            'UNCONFIRM' => ''
         );
+    }
+
+    function getTrades($status,$page = 1,$limit = 10){
+        $status = strtoupper($status);
+        if( ! isset($this->_status[$status])){
+            return FALSE;
+        }
+        if($status == 'ALL'){
+            $where = ' where ? ';
+            $status = 1;
+        }elseif($status == 'UNCONFIRM'){
+            $where = ' where confirm = ? ';
+            $status = 0;
+        }else{
+            $where = ' where tao_trade_status = ? ';
+        }
+        $query = 'select SQL_CALC_FOUND_ROWS * from '.$this->_table. $where .' limit ? ,?';
+        $rs = $this->db->query($query,array($status,($page-1)*$limit,$limit));
+        if($rs->num_rows() > 0){
+            foreach ($rs->result_array() as $row) {
+                $row['tao_trade_orders'] = unserialize($row['tao_trade_orders']);
+                $row['tao_trade_params'] = unserialize($row['tao_trade_params']);
+                $row['linked_listings'] = unserialize($row['linked_listings']);
+                $items[] = $row;
+            }
+            return $items;
+        }
+        return FALSE;
+    }
+
+    function getTotal(){
+        $query = 'select FOUND_ROWS() as total';
+        $rs = $this->db->query($query);
+        return $rs->row()->total;
     }
 
     function updateTrade($data){
@@ -40,13 +76,15 @@ class M_Order extends CI_Model {
             }
         }
         foreach($data as $trade){
+            $trade['pay_time'] = isset($trade['pay_time'])?$trade['pay_time']:'0000-00-00 00:00:00';
             if(in_array($trade['tid'],$tids)){
-                $query = 'update '.$this->_table.' set tao_trade_status = ?, tao_trade_payment = ?, tao_trade_received_payment = ? where tao_trade_id = ?';
-                $this->db->query($query,array($trade['status'],$trade['payment'],$trade['tao_trade_received_payment'],$trade['tid']));
+                $query = 'update '.$this->_table.' set tao_trade_status = ?, tao_trade_payment = ?, tao_trade_received_payment = ?, modified = ? ,pay_time = ?  where tao_trade_id = ?';
+                $this->db->query($query,array($trade['status'],$trade['payment'],$trade['received_payment'],$trade['tid'],$trade['modified'],$trade['pay_time']));
             }else{
                 $insert_data = array(
                     'tao_trade_id' => $trade['tid'],
-                    'tao_trade_status' => $this->_status[$trade['status']],
+                    'tao_trade_status' => $trade['status'],
+                    //'tao_trade_status' => $this->_status[$trade['status']],
                     'tao_trade_payment' => $trade['payment'],
                     'tao_trade_received_payment' => $trade['received_payment'],
                     'tao_trade_post_fee' => $trade['post_fee'],
@@ -64,6 +102,9 @@ class M_Order extends CI_Model {
                     'tao_trade_orders' => serialize($trade['orders']['order']),
                     'tao_trade_params' => '',
                     'tao_seller_nick' => $trade['seller_nick'],
+                    'created' => $trade['created'],
+                    'modified' => $trade['created'],
+                    'pay_time' => $trade['pay_time'],
                 );
                 $this->db->insert($this->_table,$insert_data);
             }

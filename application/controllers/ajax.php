@@ -33,13 +33,20 @@ class Ajax extends CI_Controller {
     }
 
     function TaoLinkedEtsys(){
-        $id = $this->input->get('pe_etsy_id');
+        $id = $this->input->get('pe_etsy_id',TRUE);
         if(empty($id)){
-            echo json_encode(array('state'=>FALSE,'msg'=>'ID Empty'));
-            exit;
+            if($this->uri->segment(3) === FALSE ){
+                echo json_encode(array('state'=>FALSE,'msg'=>'ID Empty'));
+                exit;
+            }
+            $id = $this->uri->segment(3);
         }
         $this->load->model('letsy');
-        $listings = $this->letsy->getTaoLinkedAllListings($id);
+        if($listings = $this->letsy->getTaoLinkedListings($id)){
+            echo json_encode(array('state'=>TRUE,'data'=>array('total'=>count($listings),'listings'=>$listings)));
+        }else{
+            echo json_encode(array('state'=>FALSE,'msg'=>'Empty'));
+        }
     }
 }
 
