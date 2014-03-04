@@ -14,9 +14,10 @@ class Order extends CI_Controller {
 
     public function index()
     {
-        $trades = $this->m_order->getTrades('ALL');
-        var_dump($trades);exit;
-        $this->template->build('admin/order/main',$data);
+        // echo "<pre>";
+        // var_dump($this->aorder->getTrade('192339471440229'));
+        // echo "</pre>";
+        $this->template->build('admin/order/main',array('trades'=>array()));
     }
 
     function updateSoldTrades(){
@@ -29,19 +30,31 @@ class Order extends CI_Controller {
     }
 
     function confirmTrade(){
-        if( ! $trade_id = $this->uri->segment(3,0)){
+        if( ! $pe_trade_id = $this->uri->segment(3,0)){
             exit('ERROR');
         }
-        $this->template->build('admin/order/confirm_trade');
+        $data['trade'] = $this->m_order->getTrade($pe_trade_id);
+        $data['listings'] = $this->m_order->getTradeAllListings($data['trade']['iids']);
+        $this->template->build('admin/order/confirm_trade',$data);
     }
 
     function showTrades(){
         if( ! $status = $this->uri->segment(3,0)){
-            
+            $status = 'ALL';
         }
         $page = $this->uri->segment(4,1);
         $trades = $this->m_order->getTrades($status,$page);
-        $this->template->build('admin/order/trades');
+        $pagination = pagination(site_url('order/showtrades/'.$status),20,$this->m_order->getTotal());
+        $this->template->inject_partial('pagination',$pagination);
+        $this->template->build('admin/order/trades',array('trades'=>$trades));
+    }
+
+    function trade(){
+        if( ! $tid = $this->uri->segment(3,0)){
+            exit('ERROR');
+        }
+        $data = array('trade'=>array('pe_trade_id'=>1,'confirm'=>1));
+        $this->template->build('admin/order/trade',$data);
     }
 }
 

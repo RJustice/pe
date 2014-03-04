@@ -2,6 +2,7 @@
 .tao-main .glyphicon{font-size:20px;}
 .tao-main .glyphicon-ok-circle{color:#2ecc71;}
 .tao-main .glyphicon-remove-circle{color:#e74c3c;}
+table tr.etsy_homology{background-color: #c76968}
 table tr.taotrselected{background-color: #f47920;}
 table tr.etsytrselected{background-color: #f15a22;}
 </style>
@@ -49,8 +50,8 @@ table tr.etsytrselected{background-color: #f15a22;}
             <table class="table tao-main">
                 <tbody>
                     <?php foreach($etsy as $etsyitem){?>
-                    <tr data-info={"etsy_id":"<?php echo $etsyitem['etsy_id'];?>","pe_etsy_id":"<?php echo $etsyitem['pe_etsy_id'];?>"} class="etsy_tr">
-                        <td style="width:70px;">
+                    <tr data-info={"etsy_id":"<?php echo $etsyitem['etsy_id'];?>","pe_etsy_id":"<?php echo $etsyitem['pe_etsy_id'];?>"} class="etsy_tr <?php echo ($etsyitem['has_homology']>1)?'etsy_homology':''; ?>">
+                        <td>
                             <?php $eimgs = unserialize($etsyitem['etsy_params']);
                             foreach( $eimgs['images'] as $eimg){ ?>
                             <img src="<?php echo $eimg['75'];?>" style="width:50px;height:50px;" alt="" class="img-thumbnail"/>

@@ -1,4 +1,4 @@
-<div class="container-fluit">
+<div class="container">
     <?php echo isset($template['partials']['submenu'])?$template['partials']['submenu']:'';?>
 </div>
 <table class="table">

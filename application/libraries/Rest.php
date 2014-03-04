@@ -313,7 +313,7 @@ class REST
     // Encode as JSON
     protected function _json($string)
     {
-    	return json_decode(trim($string),TRUE);
+    	return json_decode(preg_replace('/("\w+"):(\d+)/', '\\1:"\\2"', trim($string)),TRUE);
     }
 
     // Encode as Serialized array

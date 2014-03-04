@@ -43,10 +43,13 @@ class AOrder extends CI_Model {
     //获取订单信息
     function getTrade($tid){
         $this->_params['method'] = 'taobao.trade.get';
-        $this->_params['fields'] = '';
+        $this->_params['fields'] = 'seller_nick, buyer_nick, title, type, created, tid, seller_rate, buyer_rate, status, payment, discount_fee, adjust_fee, post_fee, total_fee, pay_time, end_time, modified, consign_time, buyer_obtain_point_fee, point_fee, real_point_fee, received_payment, commission_fee, buyer_memo, seller_memo, alipay_no, buyer_message, pic_path, num_iid, num, price, cod_fee, cod_status, shipping_type,orders';
         $this->_params['tid'] = $tid;
+        $this->_formatParams();
         $this->rest->server($this->_api_url);
         $this->rest->option(CURLOPT_SSL_VERIFYPEER,FALSE);
+        $trade = $this->rest->get('rest',$this->_params,'json');
+        return $trade;
     }
 
     function _formatParams(){

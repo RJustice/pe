@@ -35,7 +35,7 @@ class LEtsy extends CI_Model {
     }
 
     function getUnLinkedEtsy(){
-        $query = 'select pe_etsy_id,etsy_id,etsy_title,etsy_img,etsy_params from '.$this->_table.' where linked = 0 ';
+        $query = 'select pe_etsy_id,etsy_id,etsy_title,etsy_img,etsy_params, count(pe_etsy_id) as has_homology from '.$this->_table.' where linked = 0 group by homology order by pe_etsy_id';
         $rs = $this->db->query($query);
         if($rs->num_rows() > 0){
             return $rs->result_array();
@@ -162,8 +162,27 @@ class LEtsy extends CI_Model {
         return FALSE;
     }
 
-    function getTaoLinkedListings($id)  {
+    function getTaoLinkedListingsByEtsyID($id)  {
         $query = 'select * from '.$this->db->dbprefix('etsy').' where homology = (select homology from '.$this->db->dbprefix('etsy').' where pe_etsy_id = ?)';
+        $rs = $this->db->query($query,array($id));
+        if($rs->num_rows() > 0){
+            foreach ($rs->result_array() as $row) {
+                $row['etsy_params'] = unserialize($row['etsy_params']);
+                $listings[] = array(
+                        'etsy_price' => $row['etsy_price'],
+                        'etsy_currency' => $row['etsy_price'],
+                        'cny_price' => $row['etsy_price'],
+                        'etsy_shipping' => $row['etsy_params']['shipping'],
+                        'etsy_images' => $row['etsy_params']['images'],
+                    );
+            }
+            return $listings;
+        }
+        return FALSE;
+    }
+
+    function getTaoLinkedListingsByTaoID($id){
+        $query = 'select * from '.$this->db->dbprefix('etsy').' where homology = (select homology from '.$this->db->dbprefix('etsy').' where tao_id = ?)';
         $rs = $this->db->query($query,array($id));
         if($rs->num_rows() > 0){
             foreach ($rs->result_array() as $row) {
