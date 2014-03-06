@@ -39,7 +39,8 @@
                 <?php if( ! $trade['confirm']){ ?>
                 <a href="<?php echo site_url('order/confirmtrade/'.$trade['pe_trade_id']);?>" class="btn btn-danger">确认订单</a>
                 <?php }else{ ?>
-                <a href="<?php echo site_url('order/trade/'.$trade['pe_trade_id']);?>" class="btn btn-info">订单详情</a>
+                <a href="<?php echo site_url('order/trade/'.$trade['pe_trade_id']);?>" class="btn btn-info btn-sm">订单详情</a>
+                <a href="<?php echo site_url('order/confirmtrade/'.$trade['pe_trade_id']);?>" class="btn btn-primary btn-sm">修改备注</a>
                 <?php } ?>
             </div>
         </div>

@@ -168,7 +168,9 @@ class LEtsy extends CI_Model {
         if($rs->num_rows() > 0){
             foreach ($rs->result_array() as $row) {
                 $row['etsy_params'] = unserialize($row['etsy_params']);
-                $listings[] = array(
+                $listings[$row['pe_etsy_id']] = array(
+                        'pe_etsy_id' => $row['pe_etsy_id'],
+                        'etsy_id' => $row['etsy_id'],
                         'etsy_price' => $row['etsy_price'],
                         'etsy_currency' => $row['etsy_price'],
                         'cny_price' => $row['etsy_price'],
@@ -187,7 +189,9 @@ class LEtsy extends CI_Model {
         if($rs->num_rows() > 0){
             foreach ($rs->result_array() as $row) {
                 $row['etsy_params'] = unserialize($row['etsy_params']);
-                $listings[] = array(
+                $listings[$row['pe_etsy_id']] = array(
+                        'pe_etsy_id' => $row['pe_etsy_id'],
+                        'etsy_id' => $row['etsy_id'],
                         'etsy_price' => $row['etsy_price'],
                         'etsy_currency' => $row['etsy_price'],
                         'cny_price' => $row['etsy_price'],

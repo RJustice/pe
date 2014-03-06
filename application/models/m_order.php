@@ -69,6 +69,7 @@ class M_Order extends CI_Model {
                 $iids[] = $order['num_iid'];
             }
             $trade['tao_trade_params'] = unserialize($trade['tao_trade_params']);
+            $trade['linked_listings'] = unserialize($trade['linked_listings']);
             $trade['tao_trade_orders'] = $orders;
             $trade['iids'] = $iids;
             return $trade;

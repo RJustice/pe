@@ -2,7 +2,7 @@
     <?php echo isset($template['partials']['submenu'])?$template['partials']['submenu']:'';?>
 </div>
 <?php if( ! $trade['confirm']){?>
-<div class="alert alert-danger">没有确认订单,无法估算实际的利润值.请确认订单商品对应的货源商品.<a href="<?php echo site_url('order/confirmtrade/'.$trade['pe_trade_id']);?>" class="btn btn-default btn-xm">完成确认</a></div>
+    <div class="alert alert-danger">未确认订单内的商品对应的货源商品,无法确认订单产品利润.请<a href="<?php echo site_url('order/confirmtrade'.$trade['pe_trade_id']);?>" class="btn btn-xm btn-info">确认订单</a></div>
 <?php } ?>
 <div class="panel panel-primary">
     <div class="panel-heading">Panel heading without title</div>

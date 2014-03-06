@@ -33,9 +33,27 @@ class Order extends CI_Controller {
         if( ! $pe_trade_id = $this->uri->segment(3,0)){
             exit('ERROR');
         }
-        $data['trade'] = $this->m_order->getTrade($pe_trade_id);
-        $data['listings'] = $this->m_order->getTradeAllListings($data['trade']['iids']);
-        $this->template->build('admin/order/confirm_trade',$data);
+        if($this->input->post('trade_submit')){
+            $iids = $this->input->post('trade_order_iid');
+            $listings = $this->input->post('trade_order_listing');
+            $trade_confirm_memos = $this->input->post('trade_confirm_memo',TRUE);
+            foreach($iids as $k=>$iid){
+                $data[$iid] = array(
+                    'pe_etsy_id' => $listings[$k],
+                    'trade_confirm_memo' => $trade_confirm_memos[$k],
+                );
+            }
+            $confirmData = array(
+                'confirm' => 1,
+                'linked_listings' => serialize($data),
+            );
+            $this->db->update('trade',$confirmData,array('pe_trade_id'=>$pe_trade_id));
+            redirect(site_url('order/trade/'.$pe_trade_id));
+        }else{
+            $data['trade'] = $this->m_order->getTrade($pe_trade_id);
+            $data['listings'] = $this->m_order->getTradeAllListings($data['trade']['iids']);
+            $this->template->build('admin/order/confirm_trade',$data);
+        }
     }
 
     function showTrades(){

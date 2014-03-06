@@ -62,6 +62,28 @@
             });
             return false;
         });
+
+        $('.order_listings .img-thumbnail').click(function(){
+            var d = $(this).data("info");
+            $("#listing_img_"+d.iid).html($(this).clone());
+            $("#trade_order_listing_"+d.iid).val(d.pe_etsy_id);
+        });
+        $(".trade_order").click(function(){
+            var dd = $(this).data("info");
+            $(".order_listings").removeClass('order_listings_selected');
+            $("#order_listings_"+dd.iid).addClass('order_listings_selected');
+        });
+        $("#tradeConfirmForm").submit(function(){
+            var flag = true;
+            $('.trade_order_listing').each(function(){
+                flag = flag && $(this).val();
+            });
+            if(flag){
+                return true;
+            }else{
+                return false;
+            }
+        });
     });
     </script>
 </body>
