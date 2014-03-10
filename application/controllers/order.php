@@ -38,17 +38,17 @@ class Order extends CI_Controller {
             $listings = $this->input->post('trade_order_listing');
             $trade_confirm_memos = $this->input->post('trade_confirm_memo',TRUE);
             foreach($iids as $k=>$iid){
-                $data[$iid] = array(
+                $Tdata[$iid] = array(
                     'pe_etsy_id' => $listings[$k],
                     'trade_confirm_memo' => $trade_confirm_memos[$k],
                 );
             }
             $confirmData = array(
                 'confirm' => 1,
-                'linked_listings' => serialize($data),
+                'linked_listings' => serialize($Tdata),
             );
             $this->db->update('trade',$confirmData,array('pe_trade_id'=>$pe_trade_id));
-            redirect(site_url('order/trade/'.$pe_trade_id));
+            redirect(site_url('order/trade/'.$this->input->post('trade_id',TRUE)));
         }else{
             $data['trade'] = $this->m_order->getTrade($pe_trade_id);
             $data['listings'] = $this->m_order->getTradeAllListings($data['trade']['iids']);
@@ -71,7 +71,26 @@ class Order extends CI_Controller {
         if( ! $tid = $this->uri->segment(3,0)){
             exit('ERROR');
         }
-        $data = array('trade'=>array('pe_trade_id'=>1,'confirm'=>1));
+        $this->load->model('letsy');
+        $trade = $this->m_order->getTradeByTid($tid);
+        $live_trade = $this->aorder->getTradeFullInfo($tid);
+        $trade['tao_trade_params'] = array(
+            'buyer_message' => isset($live_trade['buyer_message'])? $live_trade['buyer_message'] : '',
+            'seller_memo' => isset($live_trade['seller_memo'])? $live_trade['seller_memo'] : '',
+            'buyer_nick' => isset($live_trade['buyer_nick'])? $live_trade['buyer_nick'] : '',
+            'discount_fee' => isset($live_trade['discount_fee'])? $live_trade['discount_fee'] : '',
+            'alipay_no' => isset($live_trade['alipay_no'])? $live_trade['alipay_no'] : '',
+            'trade_from' => isset($live_trade['trade_from'])? $live_trade['trade_from'] : '',
+            'trade_memo' => isset($live_trade['trade_memo'])? $live_trade['trade_memo']: '',
+            'promotion' => isset($live_trade['promotion_details'])? $live_trade['promotion_details']: ''
+        );
+        $trade['tao_trade_orders'] = $live_trade['orders']['order'];
+        $pe_etsy_ids = array();
+        foreach($trade['linked_listings'] as $l){
+            $pe_etsy_ids[]  = $l['pe_etsy_id'];
+        }
+        $listings = $this->letsy->getListingsByIds($pe_etsy_ids);
+        $data = array('trade'=>$trade,'listings'=>$listings);
         $this->template->build('admin/order/trade',$data);
     }
 }

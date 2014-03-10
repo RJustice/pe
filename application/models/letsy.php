@@ -190,14 +190,35 @@ class LEtsy extends CI_Model {
             foreach ($rs->result_array() as $row) {
                 $row['etsy_params'] = unserialize($row['etsy_params']);
                 $listings[$row['pe_etsy_id']] = array(
-                        'pe_etsy_id' => $row['pe_etsy_id'],
-                        'etsy_id' => $row['etsy_id'],
-                        'etsy_price' => $row['etsy_price'],
-                        'etsy_currency' => $row['etsy_price'],
-                        'cny_price' => $row['etsy_price'],
-                        'etsy_shipping' => $row['etsy_params']['shipping'],
-                        'etsy_images' => $row['etsy_params']['images'],
-                    );
+                    'pe_etsy_id' => $row['pe_etsy_id'],
+                    'etsy_id' => $row['etsy_id'],
+                    'etsy_price' => $row['etsy_price'],
+                    'etsy_currency' => $row['etsy_price'],
+                    'cny_price' => $row['etsy_price'],
+                    'etsy_shipping' => $row['etsy_params']['shipping'],
+                    'etsy_images' => $row['etsy_params']['images'],
+                );
+            }
+            return $listings;
+        }
+        return FALSE;
+    }
+
+    function getListingsByIds($ids){
+        $query = 'select * from '.$this->db->dbprefix('etsy').' where pe_etsy_id in ('.implode(',', $ids).')';
+        $rs = $this->db->query($query);
+        if($rs->num_rows() > 0){
+            foreach($rs->result_array() as $row){
+                $row['etsy_params'] = unserialize($row['etsy_params']);
+                $listings[$row['pe_etsy_id']] = array(
+                    'pe_etsy_id' => $row['pe_etsy_id'],
+                    'etsy_id' => $row['etsy_id'],
+                    'etsy_price' => $row['etsy_price'],
+                    'etsy_currency' => $row['etsy_price'],
+                    'cny_price' => $row['etsy_price'],
+                    'etsy_shipping' => $row['etsy_params']['shipping'],
+                    'etsy_images' => $row['etsy_params']['images'],
+                );
             }
             return $listings;
         }

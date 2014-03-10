@@ -21,4 +21,6 @@ $config['oauth2']['taobao'] = array(
         'format' => 'json',
         'sandbox' => TRUE,
         'sign_method' => 'md5',
+        'tmc_sandbox' => 'ws://mc.api.tbsandbox.com/',
+        'tmc' => 'ws://mc.api.taobao.com/'
 );

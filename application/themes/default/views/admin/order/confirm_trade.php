@@ -57,6 +57,7 @@
         <?php }?>
         <div class="row">
             <div class="col-md-4 col-md-offset-4">
+                <input type="hidden" name="trade_id" value="<?php echo $trade['tao_trade_id']?>" />
                 <input type="submit" id="trade_submit" name="trade_submit" value="完成" class="btn btn-primary btn-block"/>
             </div>
         </div>

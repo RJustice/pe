@@ -20,3 +20,14 @@ if( ! function_exists('trade_status')){
         return $trade_status[$status];
     }
 }
+
+// if( ! function_exists('trade_merge')){
+//     function trade_merge($trade1,$trade2){
+//         $trade = array_merge($trade1,$trade2);
+//         $trade = 
+//         echo "<pre>";
+//         var_dump($trade);
+//         echo "</pre>";exit;
+//         return $trade;
+//     }
+// }

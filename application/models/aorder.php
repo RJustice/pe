@@ -43,13 +43,36 @@ class AOrder extends CI_Model {
     //获取订单信息
     function getTrade($tid){
         $this->_params['method'] = 'taobao.trade.get';
-        $this->_params['fields'] = 'seller_nick, buyer_nick, title, type, created, tid, seller_rate, buyer_rate, status, payment, discount_fee, adjust_fee, post_fee, total_fee, pay_time, end_time, modified, consign_time, buyer_obtain_point_fee, point_fee, real_point_fee, received_payment, commission_fee, buyer_memo, seller_memo, alipay_no, buyer_message, pic_path, num_iid, num, price, cod_fee, cod_status, shipping_type,orders';
+        $this->_params['fields'] = 'seller_nick, buyer_nick, title, created, tid, status, payment, discount_fee, adjust_fee, post_fee, total_fee, pay_time, end_time, modified, consign_time, point_fee, real_point_fee, received_payment, buyer_memo, seller_memo, alipay_no, buyer_message, price, shipping_type,orders';
         $this->_params['tid'] = $tid;
         $this->_formatParams();
         $this->rest->server($this->_api_url);
         $this->rest->option(CURLOPT_SSL_VERIFYPEER,FALSE);
         $trade = $this->rest->get('rest',$this->_params,'json');
-        return $trade;
+        if($this->rest->status() != '200'){
+            return FALSE;
+        }
+        if( ! isset($trade['trade_get_response'])){
+            return FALSE;
+        }
+        return $trade['trade_get_response']['trade'];
+    }
+
+    function getTradeFullInfo($tid){        
+        $this->_params['method'] = 'taobao.trade.fullinfo.get';
+        $this->_params['fields'] = 'tid,status,title,total_fee,created,pay_time,modified,end_time,buyer_message,alipay_id,alipay_no,seller_memo,buyer_nick,buyer_area,shipping_type,adjust_fee,trade_from,trade_memo,receiver_city,receiver_district,seller_nick,payment,post_fee,buyer_alipay_no,receiver_name,receiver_state,receiver_address,receiver_zip,receiver_mobile,receiver_phone,consign_time,received_payment,orders,promotion_details,discount_fee';
+        $this->_params['tid'] = $tid;
+        $this->_formatParams();
+        $this->rest->server($this->_api_url);
+        $this->rest->option(CURLOPT_SSL_VERIFYPEER,FALSE);
+        $trade = $this->rest->get('rest',$this->_params,'json');
+        if($this->rest->status() != '200'){
+            return FALSE;
+        }
+        if( ! isset($trade['trade_fullinfo_get_response'])){
+            return FALSE;
+        }
+        return $trade['trade_fullinfo_get_response']['trade'];
     }
 
     function _formatParams(){

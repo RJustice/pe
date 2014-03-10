@@ -77,6 +77,24 @@ class M_Order extends CI_Model {
         return FALSE;
     }
 
+    function getTradeByTid($tid){
+        $query = 'select * from '.$this->_table.' where tao_trade_id = ? ';
+        $rs = $this->db->query($query,array($tid));
+        if($rs->num_rows() > 0){
+            $trade = $rs->row_array();
+            $orders = unserialize($trade['tao_trade_orders']);
+            foreach($orders as $order){
+                $iids[] = $order['num_iid'];
+            }
+            $trade['tao_trade_params'] = unserialize($trade['tao_trade_params']);
+            $trade['linked_listings'] = unserialize($trade['linked_listings']);
+            $trade['tao_trade_orders'] = $orders;
+            $trade['iids'] = $iids;
+            return $trade;
+        }
+        return FALSE;
+    }
+
     function getTradeAllListings($iids){
         if( ! is_array($iids)){
             $iids = array($iids);
