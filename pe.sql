@@ -10,10 +10,29 @@ Target Server Type    : MYSQL
 Target Server Version : 50045
 File Encoding         : 65001
 
-Date: 2014-03-10 17:25:53
+Date: 2014-03-14 17:09:38
 */
 
 SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for `pe_booking`
+-- ----------------------------
+DROP TABLE IF EXISTS `pe_booking`;
+CREATE TABLE `pe_booking` (
+  `pe_trade_id` int(11) NOT NULL,
+  `pe_etsy_id` int(11) NOT NULL,
+  `track_no` varchar(20) NOT NULL,
+  `status` tinyint(3) unsigned NOT NULL,
+  `etsy_trade_no` varchar(20) NOT NULL,
+  `who_pay` varchar(20) NOT NULL,
+  `payment` varchar(10) NOT NULL,
+  `currency` char(3) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of pe_booking
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for `pe_currency`
@@ -351,6 +370,25 @@ INSERT INTO `pe_etsy` VALUES ('127', '1', '116825867', 'Black Rhinestone Necklac
 INSERT INTO `pe_etsy` VALUES ('128', '1', '129370624', 'African Inspired Tribal Necklace, Ethnic Rhinestone Statement Necklace, Colorful Jeweled Collar', '28.99', 'USD', '175.7156', '5', 'https://img0.etsystatic.com/014/1/5326523/il_75x75.448853114_dcl0.jpg', 'a:2:{s:6:\"images\";a:5:{i:0;a:6:{s:11:\"full_height\";i:600;s:10:\"full_width\";i:800;s:4:\"full\";s:73:\"https://img0.etsystatic.com/014/1/5326523/il_fullxfull.448853114_dcl0.jpg\";i:570;s:69:\"https://img0.etsystatic.com/014/1/5326523/il_570xN.448853114_dcl0.jpg\";i:170;s:71:\"https://img0.etsystatic.com/014/1/5326523/il_170x135.448853114_dcl0.jpg\";i:75;s:69:\"https://img0.etsystatic.com/014/1/5326523/il_75x75.448853114_dcl0.jpg\";}i:1;a:6:{s:11:\"full_height\";i:600;s:10:\"full_width\";i:800;s:4:\"full\";s:73:\"https://img0.etsystatic.com/015/0/5326523/il_fullxfull.448853116_9f9x.jpg\";i:570;s:69:\"https://img0.etsystatic.com/015/0/5326523/il_570xN.448853116_9f9x.jpg\";i:170;s:71:\"https://img0.etsystatic.com/015/0/5326523/il_170x135.448853116_9f9x.jpg\";i:75;s:69:\"https://img0.etsystatic.com/015/0/5326523/il_75x75.448853116_9f9x.jpg\";}i:2;a:6:{s:11:\"full_height\";i:600;s:10:\"full_width\";i:800;s:4:\"full\";s:73:\"https://img1.etsystatic.com/015/0/5326523/il_fullxfull.448859917_agjc.jpg\";i:570;s:69:\"https://img1.etsystatic.com/015/0/5326523/il_570xN.448859917_agjc.jpg\";i:170;s:71:\"https://img1.etsystatic.com/015/0/5326523/il_170x135.448859917_agjc.jpg\";i:75;s:69:\"https://img1.etsystatic.com/015/0/5326523/il_75x75.448859917_agjc.jpg\";}i:3;a:6:{s:11:\"full_height\";i:1354;s:10:\"full_width\";i:1370;s:4:\"full\";s:73:\"https://img0.etsystatic.com/006/0/5326523/il_fullxfull.470352610_bg65.jpg\";i:570;s:69:\"https://img0.etsystatic.com/006/0/5326523/il_570xN.470352610_bg65.jpg\";i:170;s:71:\"https://img0.etsystatic.com/006/0/5326523/il_170x135.470352610_bg65.jpg\";i:75;s:69:\"https://img0.etsystatic.com/006/0/5326523/il_75x75.470352610_bg65.jpg\";}i:4;a:6:{s:11:\"full_height\";i:750;s:10:\"full_width\";i:1000;s:4:\"full\";s:73:\"https://img0.etsystatic.com/005/0/5326523/il_fullxfull.470352626_en61.jpg\";i:570;s:69:\"https://img0.etsystatic.com/005/0/5326523/il_570xN.470352626_en61.jpg\";i:170;s:71:\"https://img0.etsystatic.com/005/0/5326523/il_170x135.470352626_en61.jpg\";i:75;s:69:\"https://img0.etsystatic.com/005/0/5326523/il_75x75.470352626_en61.jpg\";}}s:8:\"shipping\";a:2:{i:0;a:7:{s:19:\"origin_country_name\";s:13:\"United States\";s:24:\"destination_country_name\";s:15:\"Everywhere Else\";s:13:\"currency_code\";s:3:\"USD\";s:12:\"primary_cost\";s:5:\"10.00\";s:14:\"secondary_cost\";s:4:\"0.25\";s:17:\"primary_cny_price\";s:7:\"60.6125\";s:19:\"secondary_cny_price\";s:6:\"1.5153\";}i:1;a:7:{s:19:\"origin_country_name\";s:13:\"United States\";s:24:\"destination_country_name\";s:13:\"United States\";s:13:\"currency_code\";s:3:\"USD\";s:12:\"primary_cost\";s:4:\"6.00\";s:14:\"secondary_cost\";s:4:\"0.25\";s:17:\"primary_cny_price\";s:7:\"36.3675\";s:19:\"secondary_cny_price\";s:6:\"1.5153\";}}}', '2014-02-19 08:51:43', '0', '0', '0', '', '1', '128');
 
 -- ----------------------------
+-- Table structure for `pe_notification`
+-- ----------------------------
+DROP TABLE IF EXISTS `pe_notification`;
+CREATE TABLE `pe_notification` (
+  `nid` int(10) unsigned NOT NULL auto_increment,
+  `title` varchar(50) NOT NULL,
+  `notification` varchar(255) NOT NULL,
+  `created` datetime NOT NULL,
+  `type` tinyint(4) NOT NULL,
+  `status` tinyint(4) NOT NULL,
+  `read_time` datetime NOT NULL,
+  PRIMARY KEY  (`nid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of pe_notification
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for `pe_tao`
 -- ----------------------------
 DROP TABLE IF EXISTS `pe_tao`;
@@ -411,12 +449,15 @@ INSERT INTO `pe_tao` VALUES ('28', '1', '0', 'sandbox_c_rjustice', '210050955216
 -- ----------------------------
 DROP TABLE IF EXISTS `pe_track`;
 CREATE TABLE `pe_track` (
-  `id` int(11) NOT NULL,
-  `pe_order_id` int(11) NOT NULL,
-  `pic` varchar(255) NOT NULL,
-  `description` varchar(255) NOT NULL,
-  `create_time` int(10) unsigned NOT NULL,
-  PRIMARY KEY  (`id`)
+  `pe_trade_id` int(11) NOT NULL,
+  `tao_oid` varchar(25) NOT NULL,
+  `tao_trade_id` varchar(25) NOT NULL,
+  `pe_etsy_id` int(11) NOT NULL,
+  `track_info` varchar(255) NOT NULL,
+  `created` datetime NOT NULL,
+  `track_no` varchar(20) NOT NULL,
+  `track_type` varchar(10) NOT NULL,
+  PRIMARY KEY  (`pe_trade_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -460,6 +501,22 @@ INSERT INTO `pe_trade` VALUES ('4', '192339470410229', 'WAIT_SELLER_SEND_GOODS',
 INSERT INTO `pe_trade` VALUES ('5', '192339470400229', 'WAIT_SELLER_SEND_GOODS', '105.00', '0.00', '5.00', '1121 121112  北京 北京市 东城区 aaaaa1 100010', 'express', 'a:1:{i:0;a:17:{s:10:\"adjust_fee\";s:4:\"0.00\";s:10:\"buyer_rate\";b:0;s:3:\"cid\";s:8:\"50067549\";s:12:\"discount_fee\";s:4:\"0.00\";s:10:\"is_daixiao\";b:0;s:3:\"num\";s:1:\"1\";s:7:\"num_iid\";s:13:\"2100509552250\";s:3:\"oid\";s:15:\"192339470400229\";s:7:\"payment\";s:6:\"105.00\";s:8:\"pic_path\";s:78:\"http://img02.tbsandbox.com/bao/uploaded/i2/T17nFeXcdkXXXXXXXX_!!0-item_pic.jpg\";s:5:\"price\";s:6:\"100.00\";s:13:\"refund_status\";s:9:\"NO_REFUND\";s:11:\"seller_rate\";b:0;s:11:\"seller_type\";s:1:\"C\";s:6:\"status\";s:22:\"WAIT_SELLER_SEND_GOODS\";s:5:\"title\";s:32:\"沙箱测试:自动添加商品9\";s:9:\"total_fee\";s:6:\"100.00\";}}', '', 'sandbox_c_rjustice', 'sandbox_c_rjustice01', '2014-02-18 15:35:16', '2014-02-18 15:35:16', '2014-02-18 15:35:20', '0', '', '0', '00:00:00');
 
 -- ----------------------------
+-- Table structure for `pe_trade_to_etsy`
+-- ----------------------------
+DROP TABLE IF EXISTS `pe_trade_to_etsy`;
+CREATE TABLE `pe_trade_to_etsy` (
+  `pe_trade_id` int(11) unsigned NOT NULL,
+  `tao_trade_id` varchar(25) NOT NULL,
+  `tao_oid` varchar(25) NOT NULL,
+  `pe_etsy_id` int(11) unsigned NOT NULL,
+  `status` tinyint(3) unsigned NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of pe_trade_to_etsy
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for `pe_update_history`
 -- ----------------------------
 DROP TABLE IF EXISTS `pe_update_history`;
@@ -492,5 +549,5 @@ CREATE TABLE `pe_users` (
 -- ----------------------------
 -- Records of pe_users
 -- ----------------------------
-INSERT INTO `pe_users` VALUES ('1', 'admin', '21232f297a57a5a743894a0e4a801fc3', 'Administrator', '0', 'a:2:{s:10:\"bind_state\";a:1:{s:6:\"taobao\";b:1;}s:4:\"bind\";a:1:{s:6:\"taobao\";a:7:{s:12:\"access_token\";s:57:\"6202406324b3c9ZZf27e6d3ff3d67319ca1a0a6c0ba352e3629362371\";s:10:\"expires_in\";i:12960000;s:13:\"refresh_token\";s:57:\"62018067ced082ZZ1874f02fd2c3e061112116717a3d5d03629362371\";s:13:\"re_expires_in\";i:13758752;s:8:\"tao_nick\";s:18:\"sandbox_c_rjustice\";s:7:\"tao_uid\";s:10:\"3629362371\";s:10:\"createtime\";i:1394419571;}}}');
+INSERT INTO `pe_users` VALUES ('1', 'admin', '21232f297a57a5a743894a0e4a801fc3', 'Administrator', '0', 'a:2:{s:10:\"bind_state\";a:1:{s:6:\"taobao\";b:1;}s:4:\"bind\";a:1:{s:6:\"taobao\";a:7:{s:12:\"access_token\";s:57:\"62024003ZZca6d9e24b3c93ff3d67319ca1a0a6c0ba352e3629362371\";s:10:\"expires_in\";i:12960000;s:13:\"refresh_token\";s:57:\"62007003ZZ08268ba6e4945897955134f0aab453e77449f3629362371\";s:13:\"re_expires_in\";i:13583512;s:8:\"tao_nick\";s:18:\"sandbox_c_rjustice\";s:7:\"tao_uid\";s:10:\"3629362371\";s:10:\"createtime\";i:1394594809;}}}');
 INSERT INTO `pe_users` VALUES ('2', 'sundae', '8e7fe2c69046798a68c9239b605b20b0', '岚呵呵', '1', '');
