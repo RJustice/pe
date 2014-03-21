@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50045
 File Encoding         : 65001
 
-Date: 2014-03-14 17:09:38
+Date: 2014-03-21 17:29:21
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -378,9 +378,10 @@ CREATE TABLE `pe_notification` (
   `title` varchar(50) NOT NULL,
   `notification` varchar(255) NOT NULL,
   `created` datetime NOT NULL,
-  `type` tinyint(4) NOT NULL,
-  `status` tinyint(4) NOT NULL,
+  `type` varchar(10) NOT NULL,
+  `status` tinyint(3) unsigned NOT NULL,
   `read_time` datetime NOT NULL,
+  `channel` varchar(10) NOT NULL,
   PRIMARY KEY  (`nid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
@@ -543,11 +544,12 @@ CREATE TABLE `pe_users` (
   `name` varchar(50) NOT NULL,
   `state` tinyint(3) unsigned NOT NULL default '1',
   `bind_params` text NOT NULL,
+  `channel` varchar(10) NOT NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of pe_users
 -- ----------------------------
-INSERT INTO `pe_users` VALUES ('1', 'admin', '21232f297a57a5a743894a0e4a801fc3', 'Administrator', '0', 'a:2:{s:10:\"bind_state\";a:1:{s:6:\"taobao\";b:1;}s:4:\"bind\";a:1:{s:6:\"taobao\";a:7:{s:12:\"access_token\";s:57:\"62024003ZZca6d9e24b3c93ff3d67319ca1a0a6c0ba352e3629362371\";s:10:\"expires_in\";i:12960000;s:13:\"refresh_token\";s:57:\"62007003ZZ08268ba6e4945897955134f0aab453e77449f3629362371\";s:13:\"re_expires_in\";i:13583512;s:8:\"tao_nick\";s:18:\"sandbox_c_rjustice\";s:7:\"tao_uid\";s:10:\"3629362371\";s:10:\"createtime\";i:1394594809;}}}');
-INSERT INTO `pe_users` VALUES ('2', 'sundae', '8e7fe2c69046798a68c9239b605b20b0', '岚呵呵', '1', '');
+INSERT INTO `pe_users` VALUES ('1', 'admin', '21232f297a57a5a743894a0e4a801fc3', 'Administrator', '0', 'a:2:{s:10:\"bind_state\";a:1:{s:6:\"taobao\";b:1;}s:4:\"bind\";a:1:{s:6:\"taobao\";a:7:{s:12:\"access_token\";s:57:\"62007173a6e4945897955134fhjc99c0d0aab453e77449f3629362371\";s:10:\"expires_in\";i:12960000;s:13:\"refresh_token\";s:57:\"6201e174adb381a6d20b7982egia0130ec2bad5f699a6aa3629362371\";s:13:\"re_expires_in\";i:15474546;s:8:\"tao_nick\";s:18:\"sandbox_c_rjustice\";s:7:\"tao_uid\";s:10:\"3629362371\";s:10:\"createtime\";i:1395288661;}}}', '');
+INSERT INTO `pe_users` VALUES ('2', 'sundae', '8e7fe2c69046798a68c9239b605b20b0', '岚呵呵', '1', '', '');
