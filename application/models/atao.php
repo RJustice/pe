@@ -64,15 +64,19 @@ class ATao extends CI_Model {
     //获取商品详细信息
     function getItem($taoid){
         $this->_params['method'] = 'taobao.item.get';
-        $this->_params['fields'] = '';
+        $this->_params['fields'] = 'approve_status,cid,iid,num,price,title,props,nick,pic_url,list_time';
         $this->_params['num_iid'] = $taoid;
+        $this->_formatParams();
         $this->rest->server($this->_api_url);
         $this->rest->option(CURLOPT_SSL_VERIFYPEER,FALSE);
-
+        $item = $this->rest->get('rest',$this->_params,'json');
         if($this->rest->status() != '200'){
             return FALSE;
         }
-
+        if( ! isset($item['item_get_response'])){
+            return FALSE;
+        }
+        return $item['item_get_response']['item'];
     }
 
     //批量获取商品信息

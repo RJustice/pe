@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class M_Tmc extends CI_Controller {
+class M_Tmc extends CI_Model {
 
     protected $_v = '2.0';
     protected $_format = 'json';
@@ -66,11 +66,11 @@ class M_Tmc extends CI_Controller {
         $this->rest->option(CURLOPT_SSL_VERIFYPEER,FALSE);
         $messages = $this->rest->get('rest',$this->_params,'json');
         if($this->rest->status() != '200'){
-            $this->rest->debug();
+            // $this->rest->debug();
             return FALSE;
         }
-        if(! isset($messages['tmc_messages_consume_response'])){
-            $this->rest->debug();
+        if(! isset($messages['tmc_messages_consume_response']['messages']['tmc_message'])){
+            // $this->rest->debug();
             return FALSE;
         }
         return $messages['tmc_messages_consume_response']['messages']['tmc_message'];
@@ -123,6 +123,12 @@ class M_Tmc extends CI_Controller {
         $this->load->model('ltao');
         $messages = $this->tmcMessagesConsume($group);
         $flag = array();
+        if( ! $messages){
+            return;
+        }
+        echo "<pre>";
+        var_dump($messages);
+        echo "</pre>";
         foreach($messages as $message){
             $content = json_decode(preg_replace('/("\w+"):(\d+)/', '\\1:"\\2"', trim($message['content'])),TRUE);
             $topic = $message['topic'];
@@ -155,7 +161,7 @@ class M_Tmc extends CI_Controller {
                 case 'taobao_item_ItemDelete':
                 case 'taobao_item_ItemUpdate':
                     if( ! isset($flag['trade'][$tmc_id]) || ! in_array($content['tid'], $flag['trade'][$tmc_id])){
-                        $this->doItemChanged($topic,$content['num_iid']);
+                        $this->doItemChanged($topic,$content);
                         $flag['trade'][$tmc_id][] = $content['num_iid'];
                     }
                     break;
@@ -164,20 +170,64 @@ class M_Tmc extends CI_Controller {
     }
 
     function doTradeCreated($tid){
-        
-        // add_notification('TRADECREATED',$tid);
+        $trade = $this->aorder->getTradeFullInfo($tid);
+        $this->m_order->updateTrades(array($trade));
+        $channel = strtolower(substr(md5($trade['seller_nick']),-10));
+        add_notification('TRADECREATED',$tid,$channel);
     }
 
     function doTradeChanged($tid){
-        // add_notification('TRADECHANGED',$tid);
+        $trade = $this->aorder->getTradeFullInfo($tid);
+        $this->m_order->updateTrades(array($trade));
+        $channel = strtolower(substr(md5($trade['seller_nick']),-10));
+        add_notification('TRADECHANGED',$tid,$channel);
     }
 
     function doItemAdd($iid){
-        // add_notification('ITEMCREATED',$iid);
+        $item = $this->atao->getItem($iid);
+        echo "<pre>";
+        var_dump($item);
+        echo "</pre>";
+        $this->ltao->updateTaoItems(array($item));
+        $channel = strtolower(substr(md5($item['nick']),-10));
+        add_notification('ITEMCREATED',$iid,$channel);
     }
 
-    function doItemChanged($topic,$iid){
-        // add_notification('ITEMCHANGED',$iid);
+    function doItemChanged($topic,$content){
+        switch ($topic) {
+            case 'taobao_item_ItemUpshelf':
+                $data = array(
+                    'state' => 1,
+                    );
+                break;
+            case 'taobao_item_ItemDownshelf':
+                $data = array(
+                    'state' => 0,
+                    );
+                break;
+            case 'taobao_item_ItemDelete':
+                $data = array(
+                    'state' => -1,
+                    );
+                break;
+            case 'taobao_item_ItemUpdate':
+                $item = $this->atao->getItem($content['num_iid']);
+                $data = array(
+                    'tao_title' => $item['title'],
+                    'tao_price' => $item['price'],
+                    'tao_qty' => $item['num'],
+                    'tao_params' => serialize(array(
+                            'approve_status' => $item['approve_status'],
+                            'cid' => $item['cid'],
+                            'props' => $item['props']
+                        )),
+                    'tao_img' => $item['pic_url'],
+                    );
+                break;
+        }
+        $this->db->update('tao',$data,array('tao_id'=>$content['num_iid']));
+        $channel = strtolower(substr(md5($content['nick']),-10));
+        add_notification('ITEMCHANGED',$content['num_iid'],$channel);
     }
 }
 

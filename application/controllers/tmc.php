@@ -8,7 +8,7 @@ class Tmc extends CI_Controller {
         $this->load->model('m_tmc');
     }
     function index(){
-        var_dump($this->session->userdata('user'));
+        //var_dump($this->session->userdata('user'));
     }
 
     function messagesConsume(){
@@ -23,8 +23,12 @@ class Tmc extends CI_Controller {
         echo "</pre>";
     }
 
-    function messagesConfirm(){
+    function tmcTest(){
+        $this->m_tmc->doMessages('sandbox_vip');
+    }
 
+    function messagesConfirm(){
+        
     }
 }
 
