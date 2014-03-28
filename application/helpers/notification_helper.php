@@ -28,8 +28,8 @@ if( ! function_exists('add_notification')){
         }
         $ci->db->query($query,array($title,$notification,$created,$type,$channel));
         $notification_id = $ci->db->insert_id();
-        $ci->rest->server('https://panel.mywishlists.in/push?id='.$channel);
-        $ci->rest->option(CURLOPT_SSL_VERIFYPEER,FALSE);
-        $ci->rest->post('',json_encode(array("type"=>$type,'notification_id'=>"$notification_id")),'json');
+        // $ci->rest->server('https://panel.mywishlists.in/push?id='.$channel);
+        // $ci->rest->option(CURLOPT_SSL_VERIFYPEER,FALSE);
+        // $ci->rest->post('',json_encode(array("type"=>$type,'notification_id'=>"$notification_id")),'json');
     }
 }

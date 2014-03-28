@@ -19,7 +19,7 @@ class M_User extends CI_Model {
         if($this->user){
             return $this->user;
         }
-        $query = ' select id,username,name,bind_params,state from '.$this->_table.' where username = ? and password = ? limit 1';
+        $query = ' select id,username,name,bind_params,state,channel from '.$this->_table.' where username = ? and password = ? limit 1';
         $rs = $this->db->query($query,array(
                 $username,
                 md5($password)
@@ -35,7 +35,8 @@ class M_User extends CI_Model {
                         'bind_state' => ( ! isset($this->user['bind_params']['bind_state']))?array():$this->user['bind_params']['bind_state'],
                         'bind' => ( ! isset($this->user['bind_params']['bind']))?array():$this->user['bind_params']['bind'],
                         'state' => $this->user['state'],
-                    )
+                    ),
+                    'channel' => $this->user['channel']
                 );
             $this->session->set_userdata($data);
         }

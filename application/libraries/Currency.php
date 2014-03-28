@@ -14,13 +14,14 @@ class Currency{
         $params = array('format'=>'json');
         $this->ci->rest->server($this->api);
         $currencies = $this->ci->rest->get($uri,$params,'json');
-        foreach($currencies['resources'] as $currency){
-            if($currency['resources']['fields']['volume'] != 0){
+        // $this->ci->rest->debug();
+        foreach($currencies['list']['resources'] as $currency){
+            if($currency['resource']['fields']['volume'] != 0){
                 continue;
             }
             $data = array(
-                'currency_code' => $currency['resources']['fields']['name'],
-                'value' => $currency['resources']['fields']['price'],
+                'currency_code' => $currency['resource']['fields']['name'],
+                'value' => $currency['resource']['fields']['price'],
             );
             $this->ci->db->query('update pe_currency set value = ? where currency_code = ?',array($data['value'],$data['currency_code']));
         }
