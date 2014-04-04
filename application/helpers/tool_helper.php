@@ -21,6 +21,30 @@ if( ! function_exists('trade_status')){
     }
 }
 
+if( ! function_exists('getCurrency')){
+    function getCurrency($from,$to,$count =1){
+        $ci = & get_instance();
+        if($from == 'USD'){
+            $currency = $ci->db->query('select value from pe_currency where currency_code = ?',array('USD/'.$to));
+            if($currency->num_rows() > 0){
+                return number_format($currency->row()->value * $count,4,'.','');
+            }
+            return FALSE;
+        }else{
+            $rs = $ci->db->query('select currency_code,value from pe_currency where currency_code = ? or currency_code = ?',array('USD/'.$from,'USD/'.$to));
+            if($rs->num_rows() == 2 ){
+                $c1 = $rs->row_array(0);
+                $c2 = $rs->row_array(1);
+                $cto = $c1['currency_code'] == 'USD/'.$to ?$c1['value']:$c2['value'];
+                $cfrom = $c1['currency_code'] == 'USD/'.$from ?$c1['value']:$c2['value'];
+                $currency =floatval( $cto / $cfrom);
+                return number_format($currency * $count,4,'.','');
+            }
+            return FALSE;
+        }
+    }
+}
+
 // if( ! function_exists('trade_merge')){
 //     function trade_merge($trade1,$trade2){
 //         $trade = array_merge($trade1,$trade2);

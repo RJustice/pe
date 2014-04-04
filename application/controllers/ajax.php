@@ -48,6 +48,26 @@ class Ajax extends CI_Controller {
             echo json_encode(array('state'=>FALSE,'msg'=>'Empty'));
         }
     }
+
+    function addEtsyFav(){
+
+    }
+
+    function addEtsy(){
+
+    }
+
+    function getEtsy(){
+
+    }
+
+    function getTao(){
+
+    }
+
+    function getNotification(){
+        
+    }
 }
 
 /* End of file ajax.php */
