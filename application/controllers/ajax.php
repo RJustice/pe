@@ -11,6 +11,32 @@ class Ajax extends CI_Controller {
         }
     }
 
+    function test(){
+        echo json_encode(array(
+            'a'=>11,
+            'b'=>22,
+            'c'=>33
+            ));
+        exit;
+    }
+
+    function getInfo(){
+        $model = $this->input->get('model');
+        $id = $this->input->get('id');
+        if($model == 'item'){
+            $this->load->model('letsy');
+            $listings = $this->letsy->getTaoLinkedListingsByTaoID($id);
+            echo json_encode($listings);
+            exit;
+        }
+        if($model == 'trade'){
+            $this->load->model("m_order");
+            $trade = $this->m_order->getTradeByTid($id);
+            echo json_encode($trade);
+            exit;
+        }
+    }
+
     public function index()
     {
         exit('Go Away');
@@ -50,7 +76,7 @@ class Ajax extends CI_Controller {
     }
 
     function addEtsyFav(){
-
+         
     }
 
     function addEtsy(){

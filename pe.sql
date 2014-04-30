@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50045
 File Encoding         : 65001
 
-Date: 2014-04-04 17:18:20
+Date: 2014-04-11 17:29:43
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -567,5 +567,5 @@ CREATE TABLE `pe_users` (
 -- ----------------------------
 -- Records of pe_users
 -- ----------------------------
-INSERT INTO `pe_users` VALUES ('1', 'admin', '21232f297a57a5a743894a0e4a801fc3', 'Administrator', '0', 'a:2:{s:10:\"bind_state\";a:1:{s:6:\"taobao\";b:1;}s:4:\"bind\";a:1:{s:6:\"taobao\";a:7:{s:12:\"access_token\";s:57:\"6201f09824a26e16cegdb7782529e261ef33635378c42b33629362371\";s:10:\"expires_in\";i:12960000;s:13:\"refresh_token\";s:57:\"62014097a1d4df32bdf4558b50f05f4e8d071aab7775a3a3629362371\";s:13:\"re_expires_in\";i:14253181;s:8:\"tao_nick\";s:18:\"sandbox_c_rjustice\";s:7:\"tao_uid\";s:10:\"3629362371\";s:10:\"createtime\";i:1396510045;}}}', 'd9b38e023a');
+INSERT INTO `pe_users` VALUES ('1', 'admin', '21232f297a57a5a743894a0e4a801fc3', 'Administrator', '0', 'a:2:{s:10:\"bind_state\";a:1:{s:6:\"taobao\";b:1;}s:4:\"bind\";a:1:{s:6:\"taobao\";a:7:{s:12:\"access_token\";s:57:\"6201b199528535049ce742a48f0ZZa19a9b7e8bdc457a133629362371\";s:10:\"expires_in\";i:12960000;s:13:\"refresh_token\";s:57:\"62001193b33f412803d69226ab0ZZf9a2769c885f9445183629362371\";s:13:\"re_expires_in\";i:13658695;s:8:\"tao_nick\";s:18:\"sandbox_c_rjustice\";s:7:\"tao_uid\";s:10:\"3629362371\";s:10:\"createtime\";i:1397104521;}}}', 'd9b38e023a');
 INSERT INTO `pe_users` VALUES ('2', 'sundae', '8e7fe2c69046798a68c9239b605b20b0', '岚呵呵', '1', '', '');
