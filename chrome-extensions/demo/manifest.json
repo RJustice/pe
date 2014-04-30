@@ -1,0 +1,25 @@
+{
+"name": "Page action by URL",
+"version": "1.0",
+"description": "Shows a page action for urls which have the letter 'g' in them.",
+"background": {
+  "scripts": ["background.js"],
+  "persistent": false
+},
+"page_action" :
+{
+  "default_icon" : "icon.png",
+  "default_title" : "There's a 'G' in this URL!",
+  "default_popup": "popup.html"
+},
+"permissions" : [
+  "declarativeContent",
+  "tabs",
+  "*://pe.example.com/*"
+],
+"icons" : {
+  "48" : "icon48.png",
+  "128" : "icon128.png"
+ },
+"manifest_version": 2
+}
